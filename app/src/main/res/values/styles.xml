@@ -1,6 +1,5 @@
 <resources>
 
-    <color name="custom_theme_color">#000000</color>
 
     <!-- Base application theme. -->
 
@@ -8,7 +7,6 @@
         <!-- Customize your theme here. -->
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:colorBackground">@color/custom_theme_color</item>
     </style>
 
 </resources>

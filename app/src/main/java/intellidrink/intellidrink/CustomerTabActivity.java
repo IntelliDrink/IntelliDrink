@@ -1,8 +1,15 @@
 package intellidrink.intellidrink;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +36,10 @@ public class CustomerTabActivity extends ActionBarActivity {
     ListView tabListView;
 
     ImageView advertisementImage;
+    Handler handler = new Handler();
+    final int interval = 3000;
+    int location = 0;
+    int imageIds[] = {R.drawable.tmpimage1, R.drawable.tmpimage2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,33 +60,33 @@ public class CustomerTabActivity extends ActionBarActivity {
         customersNameText = (TextView) findViewById(R.id.customersNameText);
 
         tabListView = (ListView) findViewById(R.id.customersTabView);
+        advertisementImage = (ImageView) findViewById(R.id.advertisementImageView);
 
-        setupTimer();
-
+        advertisementImage.setImageResource(R.drawable.tmpimage1);
+        location = 1;
+        handler.postDelayed(updateTimerThread, 3000);
     }
+
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+
+            Log.d("Timer", "Event1");
+            advertisementImage.setImageResource(imageIds[location++]);
+            if(location > imageIds.length - 1)
+            {
+                location = 0;
+            }
+            handler.postDelayed(this, 3000);
+        }
+    };
+
 
     void setupTimer()
     {
-        final int imageIds[] = {R.drawable.tmpimage1, R.drawable.tmpimage2};
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        advertisementImage.setImageResource(imageIds[location++]);
 
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
 
-                    public void run() {
-                        int location = 0;
-                        if (location > imageIds.length) {
-                            location = 0;
-                        } else
-                            advertisementImage.setImageResource(imageIds[location++]);
-
-                    }
-                });
-
-            }
-        }, System.currentTimeMillis(), TIMER_INTERVAL);
     }
 
     public void onClickCustomerTabActivity(View v)
