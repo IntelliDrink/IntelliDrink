@@ -39,7 +39,7 @@ public class CustomerTabActivity extends ActionBarActivity {
     Handler handler = new Handler();
     final int interval = 3000;
     int location = 0;
-    int imageIds[] = {R.drawable.tmpimage1, R.drawable.tmpimage2};
+    int imageIds[] = {R.drawable.tmpimg1, R.drawable.tmpimg2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class CustomerTabActivity extends ActionBarActivity {
         tabListView = (ListView) findViewById(R.id.customersTabView);
         advertisementImage = (ImageView) findViewById(R.id.advertisementImageView);
 
-        advertisementImage.setImageResource(R.drawable.tmpimage1);
+        advertisementImage.setImageResource(imageIds[location++]);
         location = 1;
         handler.postDelayed(updateTimerThread, 3000);
     }
