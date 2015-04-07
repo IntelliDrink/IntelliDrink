@@ -1,0 +1,24 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="intellidrink.intellidrink.MainScreen">
+
+    <ImageButton
+        android:layout_width="800dp"
+        android:layout_height="550dp"
+        android:id="@+id/mainButton"
+        android:onClick="onClickMainScreen"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageButton
+        android:layout_width="360dp"
+        android:layout_height="120dp"
+        android:id="@+id/adminButton"
+        android:onClick="onClickMainScreen"
+        android:layout_gravity="left|bottom"
+        android:src="@mipmap/ic_launcher" />
+</FrameLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">IntelliDrink</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_cash_out">CashOutActivity</string>
+    <string name="title_activity_main_screen">MainScreen</string>
+    <string name="title_activity_customer_tab">CustomerTabActivity</string>
+    <string name="title_activity_order_screen">orderScreen</string>
+</resources>

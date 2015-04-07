@@ -1,0 +1,72 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="intellidrink.intellidrink.CustomerTabActivity">
+
+    <FrameLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="350dp"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <ImageButton
+            android:layout_width="360dp"
+            android:layout_height="120dp"
+            android:id="@+id/backButton"
+            android:layout_gravity="right|bottom"
+            android:onClick="onClickCustomerTabActivity"
+            android:src="@mipmap/ic_launcher" />
+
+        <FrameLayout
+            android:layout_width="800dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center_vertical">
+
+            <ListView
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/customersTabView"
+                android:layout_gravity="left|center_vertical" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:id="@+id/customerTotalEditText"
+                android:layout_gravity="right|top"
+                android:text="Customer&apos;s Total"
+                android:gravity="center_horizontal"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="250dp"
+                android:id="@+id/advertisementImageView"
+                android:layout_gravity="right|bottom"
+                android:src="@mipmap/ic_launcher" />
+
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="360dp"
+            android:layout_height="100dp"
+            android:id="@+id/customersNameText"
+            android:layout_gravity="right|top"
+            android:text="Customer&apos;s Name"
+            android:textSize="20dp"
+            android:gravity="center_horizontal|top" />
+
+
+    </FrameLayout>
+
+    <ImageButton
+        android:layout_width="fill_parent"
+        android:layout_height="325dp"
+        android:id="@+id/orderDrinkButton"
+        android:layout_gravity="center_horizontal|top"
+        android:onClick="onClickCustomerTabActivity"
+        android:src="@mipmap/ic_launcher" />
+
+</FrameLayout>

@@ -1,0 +1,158 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="intellidrink.intellidrink.CashOutActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusableInTouchMode="true"
+        android:focusable="true"/>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="350dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="right|center_vertical">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:text="Create New Customer"
+            android:onClick="onClickCashOutActivity"
+            android:id="@+id/createNewCustomerButton"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:text="Cash Out Customer"
+            android:onClick="onClickCashOutActivity"
+            android:id="@+id/cashOutCustomerButton"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:text="Edit Customer&apos;s Tab"
+            android:id="@+id/editTabButton"
+            android:onClick="onClickCashOutActivity"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:text="Edit RFID"
+            android:onClick="onClickCashOutActivity"
+            android:id="@+id/editRFIDButton"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:text="Edit Customer&apos;s Details"
+            android:id="@+id/editDetailsButton"
+            android:onClick="onClickCashOutActivity"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="Toggle Active Customers"
+            android:id="@+id/toggleActiveCustomersButton"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:text="Remove Customer"
+            android:onClick="onClickCashOutActivity"
+            android:id="@+id/removeCustomerButton"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="Order As Admin"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="Back Button"
+            android:id="@+id/backButtonCashOutActivity"
+            android:onClick="onClickCashOutActivity"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="350dp"
+        android:layout_height="600dp"
+        android:id="@+id/customerListView"
+        android:layout_gravity="left|bottom" />
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:layout_gravity="left|top">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Search"
+            android:id="@+id/searchForNameButton"
+            android:layout_gravity="left|center_vertical" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/searchForNameEditText"
+            android:layout_gravity="right|center_vertical" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <ListView
+            android:layout_width="350dp"
+            android:layout_height="550dp"
+            android:id="@+id/tabListViewCashOutActivity"
+            android:layout_gravity="center_horizontal|bottom" />
+
+        <FrameLayout
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal|top" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="Customers Name"
+                android:id="@+id/customerNameTextEdit"
+                android:layout_gravity="center_horizontal|top" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="RFID"
+                android:id="@+id/customersRFIDTextEdit"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="Current Tab"
+                android:id="@+id/customersCurrentTabTextEdit"
+                android:layout_gravity="center_horizontal|bottom" />
+        </FrameLayout>
+    </FrameLayout>
+
+</FrameLayout>
