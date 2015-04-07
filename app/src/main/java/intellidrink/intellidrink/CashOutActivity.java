@@ -27,6 +27,8 @@ public class CashOutActivity extends ActionBarActivity {
     Button removeCustomerButton;
     Button toggleActiveCustomersButton;
     Button backButton;
+    Button orderAsAdminButton;
+    Button editPricingButton;
 
     Button searchButton;
     EditText searchEditText;
@@ -57,7 +59,10 @@ public class CashOutActivity extends ActionBarActivity {
         editCustomersTabButton = (Button) findViewById(R.id.editTabButton);
         editRFIDButton = (Button) findViewById(R.id.editRFIDButton);
         removeCustomerButton = (Button) findViewById(R.id.removeCustomerButton);
+        orderAsAdminButton = (Button) findViewById(R.id.orderAsAdminButton);
+        editPricingButton = (Button) findViewById(R.id.editPricingButton);
         toggleActiveCustomersButton = (Button) findViewById(R.id.toggleActiveCustomersButton);
+
         backButton = (Button) findViewById(R.id.backButtonCashOutActivity);
 
         searchButton = (Button) findViewById(R.id.searchForNameButton);
@@ -109,11 +114,20 @@ public class CashOutActivity extends ActionBarActivity {
         {
 
         }
+        else if(v.getId() == R.id.editPricingButton)
+        {
+
+        }
+        else if(v.getId() == R.id.orderAsAdminButton)
+        {
+
+        }
         else if(v.getId() == R.id.backButtonCashOutActivity)
         {
             Intent i = new Intent(this, AdminPanel.class);
             startActivity(i);
         }
+
         else
         {
             Toast.makeText(this, "Bad button press somewhere", Toast.LENGTH_SHORT);

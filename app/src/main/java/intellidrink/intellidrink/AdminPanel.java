@@ -18,6 +18,7 @@ public class AdminPanel extends Activity{
     Button loadKioskButton;
     Button testUSBButton;
     Button checkoutButton;
+    Button reloadKioskButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class AdminPanel extends Activity{
         loadKioskButton = (Button) findViewById(R.id.loadAppButton);
         testUSBButton = (Button) findViewById(R.id.USBTestButton);
         checkoutButton = (Button) findViewById(R.id.checkoutScreenButton);
+        reloadKioskButton = (Button) findViewById(R.id.reloadKioskButton);
+
     }
 
     public void buttonClick(View v)
@@ -55,15 +58,19 @@ public class AdminPanel extends Activity{
             //handle any passing here, but we really shouldn't need to
             startActivity(i);
         }
+        else if(v.getId() == R.id.reloadKioskButton)
+        {
+            Toast.makeText(this, "Reloading Kiosk, please wait", Toast.LENGTH_LONG).show();
+        }
         else
         {
-            Toast.makeText(this, "Well you fucked up the app somehow, good job", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Well you fucked up the app somehow, good job", Toast.LENGTH_SHORT).show();
         }
     }
 
     void debugUSB()
     {
-        Toast.makeText(this, "We're hoping we dont actually need to use this, but this is a placeholder message for now", Toast.LENGTH_SHORT);
+        Toast.makeText(this, "We're hoping we dont actually need to use this, but this is a placeholder message for now", Toast.LENGTH_SHORT).show();
     }
 
 

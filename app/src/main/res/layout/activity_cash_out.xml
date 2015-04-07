@@ -86,7 +86,7 @@
             android:layout_width="fill_parent"
             android:layout_height="75dp"
             android:text="Edit Pricing"
-            android:id="@+id/EditPricing"
+            android:id="@+id/editPricingButton"
             android:onClick="onClickCashOutActivity" />
 
         <Button
