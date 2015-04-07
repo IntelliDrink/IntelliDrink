@@ -79,8 +79,15 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:text="Order As Admin"
-            android:id="@+id/button"
+            android:id="@+id/orderAsAdminButton"
             android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:text="Edit Pricing"
+            android:id="@+id/EditPricing"
+            android:onClick="onClickCashOutActivity" />
 
         <Button
             android:layout_width="match_parent"
@@ -89,6 +96,7 @@
             android:id="@+id/backButtonCashOutActivity"
             android:onClick="onClickCashOutActivity"
             android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
 
     <ListView

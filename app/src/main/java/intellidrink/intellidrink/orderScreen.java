@@ -1,5 +1,7 @@
 package intellidrink.intellidrink;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ public class orderScreen extends ActionBarActivity {
     Button searchButton;
     EditText searchEditText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);//Remove title bar
@@ -41,7 +44,7 @@ public class orderScreen extends ActionBarActivity {
 
         setContentView(R.layout.activity_order_screen);
 
-        orderButton = (ImageButton) findViewById(R.id.orderDrinkButton);
+        orderButton = (ImageButton) findViewById(R.id.orderButton);
         backButton = (ImageButton) findViewById(R.id.backButton);
 
         drinkImage = (ImageView) findViewById(R.id.drinkPictureImage);
@@ -56,10 +59,12 @@ public class orderScreen extends ActionBarActivity {
 
     public void onClickOrderScreen(View v)
     {
-        if(v.getId() == R.id.orderDrinkButton)
+        if(v.getId() == R.id.orderButton)
         {
-            ErrorAlert e = new ErrorAlert(this);
-            e.showErrorDialog("NYI", "This event is not implemented yet");
+            //ErrorAlert e = new ErrorAlert(this);
+            //Toast.makeText(this, "ordering Drink", Toast.LENGTH_SHORT).show();
+            confirmationDialog();
+            //e.showErrorDialog("NYI", "This event is not implemented yet");
         }
         else if(v.getId() == R.id.backButton)
         {
@@ -99,4 +104,80 @@ public class orderScreen extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    void confirmationDialog()
+    {
+        AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
+                orderScreen.this);
+
+        alertDialog2.setTitle("Drink Confirmation");
+
+        //TODO: ADD IN THE DRINK NAME TO THE STRING
+        //TODO: ADD IN CHARGE TO YOUR ACCOUNT STRING
+        alertDialog2.setMessage("Are you sure you want this drink?");
+
+        //TODO: SET THIS PICTURE TO THE ID OF THE DRINK
+        //alertDialog2.setIcon(R.drawable.delete);
+
+        alertDialog2.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        drinkMixing(true);
+                    }
+                });
+        alertDialog2.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        drinkMixing(false);
+                        dialog.cancel();
+                    }
+                });
+        alertDialog2.show();
+    }
+
+    void drinkMixing(boolean confirmation)
+    {
+        if(confirmation)
+        {
+            Toast.makeText(this, "Drink Made", Toast.LENGTH_SHORT).show();
+            wouldYouLikeAnotherDialog();
+        }
+        else
+        {
+            Toast.makeText(this, "Drink NOT Made", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void wouldYouLikeAnotherDialog()
+    {
+        AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
+                orderScreen.this);
+
+        alertDialog2.setTitle("Moar???");
+
+        //TODO: ADD IN THE DRINK NAME TO THE STRING
+        //TODO: ADD IN CHARGE TO YOUR ACCOUNT STRING
+        alertDialog2.setMessage("Would you like another drink?");
+
+        //TODO: SET THIS PICTURE TO THE ID OF THE DRINK
+        //alertDialog2.setIcon(R.drawable.delete);
+
+        alertDialog2.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog2.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(getApplicationContext(), MainScreen.class);
+                        startActivity(i);
+                        dialog.cancel();
+                    }
+                });
+        alertDialog2.show();
+    }
+
+
 }
