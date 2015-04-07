@@ -6,7 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import intellidrink.intellidrink_usb_test.driver.UsbSerialPort;
+import IntelliDrinkUSB.driver.UsbSerialPort;
 
 
 /**
