@@ -93,20 +93,15 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_KIOSK_SLOTS);
     }
 
-
     /**
-     *
      * @param username
-     * @param password
-     *
-     * Description:
-     *  Polls the server for what drinks it can make, what is in each slot, and sets up the internal database
-     *
-     *
-     * Requires:
-     *  username: Kiosk name, e.g. Kiosk_1
-     *  password: the password
-     *
+     * @param password Description:
+     *                 Polls the server for what drinks it can make, what is in each slot, and sets up the internal database
+     *                 <p/>
+     *                 <p/>
+     *                 Requires:
+     *                 username: Kiosk name, e.g. Kiosk_1
+     *                 password: the password
      */
     public void configureDatabase(String username, String password) {
         resetTables();
@@ -204,22 +199,22 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         checkSlot();
     }
 
+
+
     /*
     ================================================================================================
         Check Methods
     ================================================================================================
     */
 
-
     /**
-     *
      * Description:
-     *  Checks the slot levels to see if they are high enough to produce drinks.
-     *  If not high enough, it will disable drinks
-     *  If the drinks are high enough and were disabled it will enable them.
-     *
+     * Checks the slot levels to see if they are high enough to produce drinks.
+     * If not high enough, it will disable drinks
+     * If the drinks are high enough and were disabled it will enable them.
+     * <p/>
      * Requires:
-     *  n/a
+     * n/a
      */
     public void checkSlot() {
         SQLiteDatabase READ = this.getReadableDatabase();
@@ -303,16 +298,12 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     */
 
     /**
-     *
-     * @return
-     *
-     * Description:
-     *  Returns an array list of a java object, DrinkListItem.  It only returns drinks that are
-     *  marked as available.  (Has above the minimum level)
-     *
+     * @return Description:
+     * Returns an array list of a java object, DrinkListItem.  It only returns drinks that are
+     * marked as available.  (Has above the minimum level)
+     * <p/>
      * Requires:
-     *  n/a
-     *
+     * n/a
      */
     protected ArrayList<DrinkListItem> getAvailableRecipes() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -335,15 +326,11 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *
-     * @return
-     *
-     * Description:
-     *  Returns the size of the available recipes it can make.  (Based upon minimum slot level)
-     *
+     * @return Description:
+     * Returns the size of the available recipes it can make.  (Based upon minimum slot level)
+     * <p/>
      * Requires:
      * n/a
-     *
      */
     protected int getSizeOfAvailableRecipes() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -355,20 +342,16 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param ID
-     * @return
-     *
-     * Description:
-     *  Returns the string to make the recipe to send to the arduino.
-     *  e.g.
-     *      2 shots from slot 1, 3 shots from slot 2, 3 shots from slot 3, and 1 shot from slot 8
-     *      Returns a format of 112223338
-     *
+     * @return Description:
+     * Returns the string to make the recipe to send to the arduino.
+     * e.g.
+     * 2 shots from slot 1, 3 shots from slot 2, 3 shots from slot 3, and 1 shot from slot 8
+     * Returns a format of 112223338
+     * <p/>
      * Requires:
-     *  ID:
-     *      The RecipeID of the recipe
-     *
+     * ID:
+     * The RecipeID of the recipe
      */
     protected String getRecipe(int ID) {
         String codeToReturn = "";
@@ -420,6 +403,32 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         kioskTablePointer.close();
         return codeToReturn;
     }
+
+    /*
+    ================================================================================================
+        Set Methods
+    ================================================================================================
+    */
+
+    /**
+     * @param units
+     * @param slotNumber Description:
+     *                   Updates the local databases slot levels.
+     *                   <p/>
+     *                   Requires:
+     *                   units - how many units it takes to make a recipe
+     *                   slotNumber - the slot number to update
+     */
+    public void setSlotLevel(int units, int slotNumber) {
+        SQLiteDatabase WRITE = this.getWritableDatabase();
+
+        String SQL = "UPDATE " + TABLE_KIOSK_SLOTS + " "
+                + "SET " + Constants.COL_SLOT_LEVEL + " = " + Constants.COL_SLOT_LEVEL + " - " + units + " "
+                + "WHERE " + Constants.COL_SLOT_NUMBER + " = " + slotNumber;
+
+        WRITE.execSQL(SQL);
+    }
+
 }
 
 
