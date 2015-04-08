@@ -65,7 +65,9 @@ public JSONParser(){
             }else if(method == "GET"){
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
-                    String paramString = new String(URLEncodedUtils.format(params, "utf-8"));
+                Log.d("Null check", params.toString());
+                String paramString = new String();
+                paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
                 Log.d("URL", "[" + url + "]");
                 HttpGet httpGet = new HttpGet(url);

@@ -1,6 +1,7 @@
 package intellidrink.intellidrink;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -75,6 +76,8 @@ public class CashOutActivity extends ActionBarActivity {
         customersCurrentTabTextEdit = (TextView) findViewById(R.id.customersCurrentTabTextEdit);
 
         tabListView = (ListView) findViewById(R.id.tabListViewCashOutActivity);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     @Override

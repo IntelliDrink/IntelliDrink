@@ -3,6 +3,7 @@ package intellidrink.intellidrink;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -55,6 +56,8 @@ public class orderScreen extends ActionBarActivity {
 
         searchButton = (Button) findViewById(R.id.searchButton);
         searchEditText = (EditText) findViewById(R.id.searchEditText);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public void onClickOrderScreen(View v)

@@ -6,6 +6,7 @@ import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -78,6 +79,9 @@ public class CustomerTabActivity extends ActionBarActivity {
         advertisementImage.setImageResource(imageIds[location++]);
         location = 1;
         handler.postDelayed(updateTimerThread, 3000);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     private Runnable updateTimerThread = new Runnable() {
