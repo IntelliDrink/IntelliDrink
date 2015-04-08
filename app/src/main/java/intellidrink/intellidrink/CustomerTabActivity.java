@@ -21,8 +21,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import IntelliDrinkCore.LiteralIngredient;
+import IntelliDrinkDB.ServerDatabase;
 
 
 public class CustomerTabActivity extends ActionBarActivity {
@@ -34,6 +38,8 @@ public class CustomerTabActivity extends ActionBarActivity {
     TextView customersNameText;
 
     ListView tabListView;
+
+    ServerDatabase db;
 
     ImageView advertisementImage;
     Handler handler = new Handler();
@@ -50,6 +56,13 @@ public class CustomerTabActivity extends ActionBarActivity {
         //Remove notification bar
         //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+
+        db = new ServerDatabase();
+
+        ArrayList<LiteralIngredient> arraylist = new ArrayList<LiteralIngredient>();
+        arraylist = db.getLiteralIngredients("Kiosk_1", "password");
+
+        Toast.makeText(this, arraylist.get(2).getLiteralName(), Toast.LENGTH_SHORT).show();
 
         setContentView(R.layout.activity_customer_tab);
 
