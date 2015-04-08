@@ -12,7 +12,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 import IntelliDrinkCore.DrinkListItem;
+import IntelliDrinkCore.GenericIngredient;
 import IntelliDrinkCore.KioskConfiguration;
+import IntelliDrinkCore.LiteralIngredient;
 import IntelliDrinkCore.SlotItem;
 
 public class LocalDatabaseHelper extends SQLiteOpenHelper {
@@ -310,7 +312,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         String MySQLString = "SELECT * FROM " + TABLE_DRINK_LIST + " "
                 + "WHERE " + Constants.COL_AVAILABLE + " = TRUE";
         Cursor point = db.rawQuery(MySQLString, null);
-        ArrayList<DrinkListItem> recipeList = null;
+        ArrayList<DrinkListItem> recipeList = new ArrayList<>();
         DrinkListItem recipe = null;
         while (point.moveToNext()) {
             recipe = new DrinkListItem();
@@ -402,6 +404,30 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         recipeNeedsPointer.close();
         kioskTablePointer.close();
         return codeToReturn;
+    }
+
+    /**
+     * @param ID
+     * @return Description:
+     * Returns the string to make the recipe to send to the arduino.
+     * e.g.
+     * 2 shots from slot 1, 3 shots from slot 2, 3 shots from slot 3, and 1 shot from slot 8
+     * Returns a format of 112223338
+     * <p/>
+     * Requires:
+     * ID:
+     * The RecipeID of the recipe
+     */
+    protected ArrayList<String> getDrinkIngredients(int ID) {
+        ArrayList<String> ingredientList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        //This SQL Statement selects all of the needed ingredients needed in to make a drink
+        String MySQLString = "SELECT " + Constants.COL_LITERAL_NAME +  "  FROM " + TABLE_RECIPE_NEEDS + " WHERE" + Constants.COL_RECIPE_ID + " = " + ID;
+        Cursor recipeNeedsPointer = db.rawQuery(MySQLString, null);
+        while (recipeNeedsPointer.moveToNext()) {
+            ingredientList.add(recipeNeedsPointer.getString(recipeNeedsPointer.getColumnIndex(Constants.COL_LITERAL_NAME)));
+        }
+        return ingredientList;
     }
 
     /*
