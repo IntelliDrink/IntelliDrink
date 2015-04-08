@@ -4,11 +4,18 @@ package IntelliDrinkCore;
  * Created by David on 4/6/2015.
  */
 public class CustomerInformation {
+
     private int ID;
     private String customerName;
     private double balance;
     private String customerRFID;
     private boolean coolDown;
+
+    public CustomerInformation()
+    {
+        String customerName = new String();
+        String customerRFID = new String();
+    }
 
     public boolean isCoolDown() {
         return coolDown;

@@ -1,15 +1,35 @@
 package IntelliDrinkCore;
 
+import java.util.ArrayList;
+
 /**
  * Created by David on 4/7/2015.
  */
 public class DrinkListItem {
-    private int ID;
-    private int recipeID;
+    private int ID = 0;
+    private int recipeID = 0;
     private String recipeName;
-    private double price;
+    private double price = 0;
     private String description;
-    private boolean available;
+    private boolean available = false;
+    private String arduinoCode;
+    ArrayList<LiteralIngredient> ingredients;
+
+    public DrinkListItem()
+    {
+        String recipeName = new String();
+        String description = new String();
+        arduinoCode = new String();
+        ingredients = new ArrayList<LiteralIngredient>();
+    }
+
+    public String getArduinoCode() {return this.arduinoCode;}
+
+    public void setArduinoCode(String a) { arduinoCode = a; }
+
+    public void addIngredients(LiteralIngredient i) {ingredients.add(i);}
+
+    public ArrayList<LiteralIngredient> getIngredients()  {return this.ingredients;}
 
     public int getID() {
         return ID;

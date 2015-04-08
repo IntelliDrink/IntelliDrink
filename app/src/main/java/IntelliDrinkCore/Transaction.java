@@ -7,6 +7,18 @@ public class Transaction {
     private int ID;
     private double price;
 
+    public Transaction()
+    {
+        ID = 0;
+        price = 0.0;
+    }
+
+    public Transaction(int id, double p)
+    {
+        ID = id;
+        price = p;
+    }
+
     public String getRecipeName() {
         return recipeName;
     }

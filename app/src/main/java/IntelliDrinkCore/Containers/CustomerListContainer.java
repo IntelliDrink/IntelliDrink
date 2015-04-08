@@ -3,18 +3,24 @@ package IntelliDrinkCore.Containers;
 import java.util.ArrayList;
 
 import IntelliDrinkCore.Transaction;
+import IntelliDrinkDB.Grabbers.CustomerListGrabber;
+import IntelliDrinkDB.LocalDatabaseHelper;
 
 /**
  * Created by Terryn-Fredrickson on 4/7/15.
  */
-public class CustomerListContainer {
+public class CustomerListContainer implements IntelliDrinkContainer{
 
     //static CustomerListContainer instance;
     ArrayList<Transaction> tabList;
 
-    public CustomerListContainer()
+    CustomerListGrabber myGrabber;
+
+    //TODO INTERFACE WITH THE GRABBER
+    public CustomerListContainer(LocalDatabaseHelper db)
     {
         tabList = new ArrayList<Transaction>();
+        myGrabber = new CustomerListGrabber(this, db);
     }
 
     /*public synchronized static CustomerListContainer getInstance()
@@ -30,6 +36,13 @@ public class CustomerListContainer {
         this.tabList = list;
     }
 
+    public ArrayList<Transaction> getArrayList()
+    {
+        //return instance.tabList;
+        return this.tabList;
+    }
+
+
     public Transaction getTransaction(int i)
     {
         Transaction tmp = new Transaction();
@@ -38,4 +51,19 @@ public class CustomerListContainer {
     }
 
 
+    /**
+     * Updates the DB with the info on the class
+     */
+    @Override
+    public void transfer() {
+
+    }
+
+    /**
+     * Updates the Container from the DB
+     */
+    @Override
+    public void update() {
+
+    }
 }
