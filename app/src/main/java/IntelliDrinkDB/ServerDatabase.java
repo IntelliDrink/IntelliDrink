@@ -43,8 +43,7 @@ public class ServerDatabase extends Constants {
      */
     public JSONArray execute(List<NameValuePair> passedinParams, String passedInURL){
 
-        String BIGGEST_FUCKING_PENIS = "SDGFDGJDFGWRJGDF";
-
+        String MYBIGPENIS = "THIS IS A FUCKING PCB";
         JSONArray jArray = null;
         JSONObject json = jParser.makeHttpRequest(passedInURL, "GET", passedinParams);
         try {
