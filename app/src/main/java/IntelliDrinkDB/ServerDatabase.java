@@ -42,8 +42,6 @@ public class ServerDatabase extends Constants {
      * Generic call to the database allows for a URL to be passed in
      */
     public JSONArray execute(List<NameValuePair> passedinParams, String passedInURL){
-
-        String MYBIGPENIS = "THIS IS A FUCKING PCB";
         JSONArray jArray = null;
         JSONObject json = jParser.makeHttpRequest(passedInURL, "GET", passedinParams);
         try {
