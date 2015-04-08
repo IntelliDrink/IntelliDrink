@@ -42,6 +42,9 @@ public class ServerDatabase extends Constants {
      * Generic call to the database allows for a URL to be passed in
      */
     public JSONArray execute(List<NameValuePair> passedinParams, String passedInURL){
+
+        String BIGGEST_FUCKING_PENIS = "SDGFDGJDFGWRJGDF";
+
         JSONArray jArray = null;
         JSONObject json = jParser.makeHttpRequest(passedInURL, "GET", passedinParams);
         try {
@@ -67,7 +70,7 @@ public class ServerDatabase extends Constants {
     public int getCustomerIDByRFID(String username, String password, String RFID){
         int customerID = 0;
         String URL = BASE_URL + URL_GET_CUSTOMER_ID;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -102,7 +105,7 @@ public class ServerDatabase extends Constants {
     public int getCustomerIDByEMAIL(String username, String password, String EMAIL){
         int customerID = 0;
         String URL = BASE_URL + URL_GET_CUSTOMER_ID;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -135,7 +138,7 @@ public class ServerDatabase extends Constants {
     public double checkOut(String username, String password, int ID){
         double balance = 0.00;
         String URL = BASE_URL + URL_CHECK_OUT;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -175,7 +178,7 @@ public class ServerDatabase extends Constants {
      */
     public ArrayList<KioskConfiguration> configureKioskDatabase(String username, String password){
         String URL = BASE_URL + URL_CONFIGURE_KIOSK;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));;
@@ -227,7 +230,7 @@ public class ServerDatabase extends Constants {
      */
     public CustomerInformation cusomterInfo(String username, String password, String customerRFID){
         String URL = BASE_URL + URL_CUSTOMER_INFO;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -267,7 +270,7 @@ public class ServerDatabase extends Constants {
     public ArrayList<Transaction> getTransactionHistory(String username, String password, int CustomerID){
         String URL = BASE_URL + URL_GET_TRANSACTION_HISTORY;
         JSONArray jArray = null;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -351,7 +354,7 @@ public class ServerDatabase extends Constants {
     public ArrayList<LiteralIngredient> getLiteralIngredients(String username, String password, int GenericIDNumber){
         String URL = BASE_URL + URL_GET_LITERAL_INGREDIENTS;
         JSONArray jArray = null;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -395,7 +398,7 @@ public class ServerDatabase extends Constants {
     public  ArrayList<GenericIngredient> getGenericIngredients(String username, String password){
         String URL = BASE_URL + URL_GET_LITERAL_INGREDIENTS;
         JSONArray jArray = null;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -435,7 +438,7 @@ public class ServerDatabase extends Constants {
     public ArrayList<SlotItem> getSlotAttributes(String username, String password){
         String URL = BASE_URL + URL_GET_SLOT_ATTRIBUTES;
         JSONArray jArray = null;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
         jParser.makeHttpRequest(URL, "GET", params);
@@ -481,7 +484,7 @@ public class ServerDatabase extends Constants {
      */
     public void customerTransaction(String username, String password, int CustomerID, int RecipeID, int Number, double Price){
         String URL = BASE_URL + URL_CUSTOMER_TRANSACTIONS;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
         params.add(new BasicNameValuePair(COL_CUSTOMER_ID, "" + CustomerID));
@@ -508,7 +511,7 @@ public class ServerDatabase extends Constants {
      */
     public void slotLevel(String username, String password, int SlotNum, int RecipeID, int Units){
         String URL = BASE_URL + URL_SLOT_LEVEL;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -534,7 +537,7 @@ public class ServerDatabase extends Constants {
      */
     public void deleteTransaction(String username, String password, int transactionID){
         String URL = BASE_URL + URL_DELETE_TRANSACTION;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
@@ -558,7 +561,7 @@ public class ServerDatabase extends Constants {
      */
     public void EditRFID(String username, String password, String CustomerRFID, int ID){
         String URL = BASE_URL + URL_EDIT_RFID;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
         params.add(new BasicNameValuePair(COL_CUSTOMER_RFID, CustomerRFID));
@@ -581,7 +584,7 @@ public class ServerDatabase extends Constants {
      */
     public void setSlotIngredient(String username, String password, int Ingredient, int SlotNum, int SlotLevel){
         String URL = BASE_URL + URL_SET_SLOT_ATTRIBUTE;
-        List<NameValuePair> params = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
         params.add(new BasicNameValuePair(TAG_INGREDIENT, "" + Ingredient));
