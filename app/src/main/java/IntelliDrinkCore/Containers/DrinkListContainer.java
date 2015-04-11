@@ -6,6 +6,7 @@ import IntelliDrinkCore.DrinkListItem;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.Grabbers.DrinkListGrabber;
 import IntelliDrinkDB.LocalDatabaseHelper;
+import IntelliDrinkDB.ServerDatabase;
 
 /**
  * Created by Terryn-Fredrickson on 4/7/15.
@@ -13,24 +14,19 @@ import IntelliDrinkDB.LocalDatabaseHelper;
  */
 public class DrinkListContainer implements IntelliDrinkContainer{
 
-    static DrinkListContainer instance;
     ArrayList<DrinkListItem> tabList;
-
     DrinkListGrabber myGrabber;
 
-    //TODO INTERFACE WITH THE GRABBER
-    public DrinkListContainer(LocalDatabaseHelper db)
+    DrinkListItem lastDrink;
+    int drinkCounter = 0;
+
+    int drinkables;
+
+    public DrinkListContainer(ServerDatabase db, LocalDatabaseHelper db2)
     {
         tabList = new ArrayList<>();
-        myGrabber = new DrinkListGrabber(this, db);
-    }
-
-    public synchronized static DrinkListContainer getInstance(LocalDatabaseHelper db)
-    {
-        if (instance == null)
-            instance = new DrinkListContainer(db);
-
-        return instance;
+        myGrabber = new DrinkListGrabber(this, db, db2);
+        lastDrink = new DrinkListItem();
     }
 
     public void setArrayList(ArrayList<DrinkListItem> list)
@@ -40,9 +36,13 @@ public class DrinkListContainer implements IntelliDrinkContainer{
 
     public ArrayList<DrinkListItem> getArrayList()
     {
-        return instance.tabList;
-        //return this.tabList;
+        //return instance.tabList;
+        return this.tabList;
     }
+
+    public int getDrinkables() { return drinkables; }
+
+    public void setDrinkables(int d) { drinkables = d; }
 
 
     public DrinkListItem getDrink(int i)
@@ -52,12 +52,27 @@ public class DrinkListContainer implements IntelliDrinkContainer{
         return tmp;
     }
 
+    public DrinkListItem getLastDrink()
+    {
+        return lastDrink;
+    }
+
+
+    public void makeDrink(DrinkListItem drinkMade)
+    {
+        this.lastDrink = drinkMade;
+        transfer();
+        lastDrink = new DrinkListItem();
+    }
+
+
     /**
      * Updates the DB with the info on the class
      */
     @Override
     public void transfer() {
-
+        drinkCounter ++;
+        myGrabber.pushToServer();
     }
 
     /**
@@ -65,6 +80,22 @@ public class DrinkListContainer implements IntelliDrinkContainer{
      */
     @Override
     public void update() {
+        //TODO theres got to be a way to not reqrite this whole fucking thing every time we update....
+        build();
+    }
 
+    public void build()
+    {
+        if(tabList.size() > 0)
+        {
+            tabList.clear();
+        }
+        myGrabber.buildContainer();
+
+    }
+
+    public void builder(ArrayList<DrinkListItem> drinks)
+    {
+        this.tabList = drinks;
     }
 }

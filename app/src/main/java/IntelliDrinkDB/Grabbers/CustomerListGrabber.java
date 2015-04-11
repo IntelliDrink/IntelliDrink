@@ -2,21 +2,23 @@ package IntelliDrinkDB.Grabbers;
 
 import IntelliDrinkCore.Containers.CustomerListContainer;
 import IntelliDrinkDB.LocalDatabaseHelper;
+import IntelliDrinkDB.ServerDatabase;
 
 /**
  * Created by Terryn-Fredrickson on 4/7/15.
  */
-public class CustomerListGrabber {
+public class CustomerListGrabber extends GenericListGrabber{
 
     CustomerListContainer myContainer;
 
-    LocalDatabaseHelper myDb;
 
-    public CustomerListGrabber(CustomerListContainer container, LocalDatabaseHelper db)
+    public CustomerListGrabber(CustomerListContainer container, ServerDatabase db)
     {
+        super(db);
         myContainer = container;
-        myDb = db;
     }
+
+
 
 
 }

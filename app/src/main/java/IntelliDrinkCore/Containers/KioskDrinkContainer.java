@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import IntelliDrinkCore.LiteralIngredient;
 import IntelliDrinkDB.Grabbers.KioskGrabber;
 import IntelliDrinkDB.LocalDatabaseHelper;
+import IntelliDrinkDB.ServerDatabase;
 
 /**
  * Created by Terryn-Fredrickson on 4/7/15.
@@ -18,7 +19,7 @@ public class KioskDrinkContainer implements IntelliDrinkContainer{
     KioskGrabber myGrabber;
 
     //TODO INTERFACE WITH THE GRABBER
-    public KioskDrinkContainer(LocalDatabaseHelper db)
+    public KioskDrinkContainer(ServerDatabase db)
     {
         ingredients = new ArrayList<LiteralIngredient>();
         activeIngredient = new LiteralIngredient();

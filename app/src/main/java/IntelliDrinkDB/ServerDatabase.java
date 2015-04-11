@@ -28,6 +28,7 @@ import IntelliDrinkCore.Transaction;
 public class ServerDatabase extends Constants {
     JSONParser jParser;
 
+    //TODO SET USERNAME / PASSWORD IN CONSTRUCTOR
     public ServerDatabase(){
 
         jParser = new JSONParser();

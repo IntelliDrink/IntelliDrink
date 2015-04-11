@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -35,6 +36,7 @@ public class CashOutActivity extends ActionBarActivity {
     EditText searchEditText;
 
     ListView customerListView;
+    String[] tmpList = {"tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp"};
 
     TextView customerNameTextEdit;
     TextView customersRFIDTextEdit;
@@ -70,12 +72,19 @@ public class CashOutActivity extends ActionBarActivity {
         searchEditText = (EditText) findViewById(R.id.searchForNameEditText);
 
         customerListView = (ListView) findViewById(R.id.customerListView);
+        //TODO FIX THIS ADAPTER
+        ArrayAdapter<String> tmpAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, tmpList);
+        customerListView.setAdapter(tmpAdapter);
 
         customerNameTextEdit = (TextView) findViewById(R.id.customerNameTextEdit);
         customersRFIDTextEdit = (TextView) findViewById(R.id.customersRFIDTextEdit);
         customersCurrentTabTextEdit = (TextView) findViewById(R.id.customersCurrentTabTextEdit);
 
         tabListView = (ListView) findViewById(R.id.tabListViewCashOutActivity);
+        //TODO FIX THIS ADAPTER
+        tabListView.setAdapter(tmpAdapter);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }

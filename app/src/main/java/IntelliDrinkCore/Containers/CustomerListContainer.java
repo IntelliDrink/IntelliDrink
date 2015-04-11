@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.Grabbers.CustomerListGrabber;
 import IntelliDrinkDB.LocalDatabaseHelper;
+import IntelliDrinkDB.ServerDatabase;
 
 /**
  * Created by Terryn-Fredrickson on 4/7/15.
@@ -17,7 +18,7 @@ public class CustomerListContainer implements IntelliDrinkContainer{
     CustomerListGrabber myGrabber;
 
     //TODO INTERFACE WITH THE GRABBER
-    public CustomerListContainer(LocalDatabaseHelper db)
+    public CustomerListContainer(ServerDatabase db)
     {
         tabList = new ArrayList<Transaction>();
         myGrabber = new CustomerListGrabber(this, db);

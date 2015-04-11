@@ -9,8 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import IntelliDrinkCore.Containers.DrinkListContainer;
 
 
 public class AdminPanel extends Activity{
@@ -19,6 +23,11 @@ public class AdminPanel extends Activity{
     Button testUSBButton;
     Button checkoutButton;
     Button reloadKioskButton;
+
+
+    ListView kioskDispensaryListView;
+    ListView drinkSelectorListView;
+    String[] tmpList = {"tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,16 @@ public class AdminPanel extends Activity{
         testUSBButton = (Button) findViewById(R.id.USBTestButton);
         checkoutButton = (Button) findViewById(R.id.checkoutScreenButton);
         reloadKioskButton = (Button) findViewById(R.id.reloadKioskButton);
+
+        kioskDispensaryListView = (ListView) findViewById(R.id.kioskDispensaryList);
+        drinkSelectorListView = (ListView) findViewById(R.id.drinkSelectorListView);
+
+        //TODO FIX THIS ADAPTER
+        ArrayAdapter<String> tmpAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, tmpList);
+        kioskDispensaryListView.setAdapter(tmpAdapter);
+        drinkSelectorListView.setAdapter(tmpAdapter);
+
 
     }
 

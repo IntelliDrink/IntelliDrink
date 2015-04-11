@@ -2,12 +2,14 @@ package IntelliDrinkDB;
 
 /**
  * Created by David on 2/8/2015.
+ * This guy actually builds the drinklist.
  */
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -307,7 +309,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * Requires:
      * n/a
      */
-    protected ArrayList<DrinkListItem> getAvailableRecipes() {
+    public ArrayList<DrinkListItem> getAvailableRecipes() {
         SQLiteDatabase db = this.getReadableDatabase();
         String MySQLString = "SELECT * FROM " + TABLE_DRINK_LIST + " "
                 + "WHERE " + Constants.COL_AVAILABLE + " = TRUE";
@@ -324,6 +326,8 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             recipe.setAvailable(true);
             recipeList.add(recipe);
         }
+        if(recipeList.size() == 0)
+            Log.d(this.toString(), "recipelist is returning as a size 0, something is wrong");
         return recipeList;
     }
 
@@ -334,7 +338,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * Requires:
      * n/a
      */
-    protected int getSizeOfAvailableRecipes() {
+    public int getSizeOfAvailableRecipes() {
         SQLiteDatabase db = this.getReadableDatabase();
         String MySQLString = "SELECT COUNT ID FROM " + TABLE_DRINK_LIST + " "
                 + "WHERE " + Constants.COL_AVAILABLE + " = TRUE";
@@ -355,7 +359,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * ID:
      * The RecipeID of the recipe
      */
-    protected String getRecipe(int ID) {
+    public String getArduinoCode(int ID) {
         String codeToReturn = "";
         int ingredientID;
         int units;
@@ -403,6 +407,10 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         } while (recipeNeedsPointer.moveToNext());
         recipeNeedsPointer.close();
         kioskTablePointer.close();
+        if(codeToReturn.length() == 0)
+        {
+            Log.d(this.toString(), "Arduino Code is returning with nothing");
+        }
         return codeToReturn;
     }
 
@@ -418,7 +426,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * ID:
      * The RecipeID of the recipe
      */
-    protected ArrayList<String> getDrinkIngredients(int ID) {
+    public ArrayList<String> getDrinkIngredients(int ID) {
         ArrayList<String> ingredientList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         //This SQL Statement selects all of the needed ingredients needed in to make a drink
@@ -426,6 +434,10 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         Cursor recipeNeedsPointer = db.rawQuery(MySQLString, null);
         while (recipeNeedsPointer.moveToNext()) {
             ingredientList.add(recipeNeedsPointer.getString(recipeNeedsPointer.getColumnIndex(Constants.COL_LITERAL_NAME)));
+        }
+        if(ingredientList.size() == 0)
+        {
+            Log.d(this.toString(), "Ingredients size == 0, something is wrong");
         }
         return ingredientList;
     }

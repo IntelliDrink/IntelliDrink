@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import IntelliDrinkCore.Containers.DrinkListContainer;
 import IntelliDrinkDB.ServerDatabase;
 
 
@@ -55,10 +56,13 @@ public class MainScreen extends ActionBarActivity {
         {
             Intent i = new Intent(this, CustomerTabActivity.class);
             //handle RFID
-            int RFID = handleRFID();
-            if(RFID > 0)
+            String RFID = handleRFID();
+            if(RFID.length() > 0)
             {
                 //TODO: pass RFID????
+                Bundle extras = new Bundle();
+                extras.putString("RFID", RFID);
+                i.putExtras(extras);
                 startActivity(i);
             }
             else
@@ -82,10 +86,12 @@ public class MainScreen extends ActionBarActivity {
     }
 
     //TODO: implement RFID Handler
-    public int handleRFID()
+    public String handleRFID()
     {
-        int RFID = -1;
+        String RFID = "";
 
+        //TODO:REMOVETHIS
+        RFID = "12345678";
         return RFID;
     }
 

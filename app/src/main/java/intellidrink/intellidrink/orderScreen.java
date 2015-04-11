@@ -11,12 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 
 public class orderScreen extends ActionBarActivity {
@@ -32,6 +36,9 @@ public class orderScreen extends ActionBarActivity {
 
     Button searchButton;
     EditText searchEditText;
+
+    ListView drinkListView;
+    String[] tmpList = {"tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp"};
 
 
     @Override
@@ -56,6 +63,13 @@ public class orderScreen extends ActionBarActivity {
 
         searchButton = (Button) findViewById(R.id.searchButton);
         searchEditText = (EditText) findViewById(R.id.searchEditText);
+
+
+        drinkListView = (ListView) findViewById(R.id.drinkListView);
+        ArrayAdapter<String> tmpAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, tmpList);
+        drinkListView.setAdapter(tmpAdapter);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }

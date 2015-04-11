@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,7 +27,10 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import IntelliDrinkCore.Containers.TabListContainer;
 import IntelliDrinkCore.LiteralIngredient;
+import IntelliDrinkCore.Transaction;
+import IntelliDrinkDB.Grabbers.TabGrabber;
 import IntelliDrinkDB.ServerDatabase;
 
 
@@ -40,7 +44,10 @@ public class CustomerTabActivity extends ActionBarActivity {
 
     ListView tabListView;
 
+
     ServerDatabase db;
+    TabListContainer myContainer;
+    String RFID;
 
     ImageView advertisementImage;
     Handler handler = new Handler();
@@ -51,19 +58,16 @@ public class CustomerTabActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Remove title bar
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        //Remove notification bar
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        customersNameText.setText("Test Customer");
+        customerTotalEditText.setText("Total: 9,99$");
 
         db = new ServerDatabase();
+        myContainer = new TabListContainer(db);
 
-        ArrayList<LiteralIngredient> arraylist = new ArrayList<LiteralIngredient>();
-        arraylist = db.getLiteralIngredients("Kiosk_1", "password");
+        RFID = getIntent().getExtras().getString("RFID");
+        myContainer.build(RFID);
 
-        Toast.makeText(this, arraylist.get(2).getLiteralName(), Toast.LENGTH_SHORT).show();
+
 
         setContentView(R.layout.activity_customer_tab);
 
@@ -76,9 +80,15 @@ public class CustomerTabActivity extends ActionBarActivity {
         tabListView = (ListView) findViewById(R.id.customersTabView);
         advertisementImage = (ImageView) findViewById(R.id.advertisementImageView);
 
+
         advertisementImage.setImageResource(imageIds[location++]);
         location = 1;
         handler.postDelayed(updateTimerThread, 3000);
+
+        ArrayAdapter<Transaction> transactionAdapter = new ArrayAdapter<Transaction>(this,
+                android.R.layout.activity_list_item, myContainer.getTransactionHistory());
+        tabListView.setAdapter(transactionAdapter);
+
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -102,8 +112,6 @@ public class CustomerTabActivity extends ActionBarActivity {
     void setupTimer()
     {
         advertisementImage.setImageResource(imageIds[location++]);
-
-
     }
 
     public void onClickCustomerTabActivity(View v)

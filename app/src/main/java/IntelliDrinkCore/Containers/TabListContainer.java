@@ -4,35 +4,44 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+import IntelliDrinkCore.CustomerInformation;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.Grabbers.TabGrabber;
 import IntelliDrinkDB.LocalDatabaseHelper;
+import IntelliDrinkDB.ServerDatabase;
 
 /**
  * Created by Terryn-Fredrickson on 4/7/15.
  */
 public class TabListContainer implements IntelliDrinkContainer{
 
-    String customersName;
+    CustomerInformation myInformation;
     ArrayList<Transaction> transactionHistory;
     TabGrabber myGrabber;
+    String RFID;
 
     //TODO INTERFACE WITH THE GRABBER
-    public TabListContainer(LocalDatabaseHelper db)
+    public TabListContainer(ServerDatabase db)
     {
-        customersName = "";
+        myInformation = new CustomerInformation();
         transactionHistory = new ArrayList<>();
         myGrabber = new TabGrabber(this, db);
     }
 
-    public void setName(String name)
+    public CustomerInformation getMyInformation()
     {
-        customersName = name;
+        return myInformation;
+    }
+
+    public ArrayList<Transaction> getTransactionHistory()
+    {
+        return transactionHistory;
     }
 
     public void addTransaction(Transaction a)
     {
         transactionHistory.add(a);
+        transfer();
     }
 
     public void addTransaction(int id, double price)
@@ -46,6 +55,7 @@ public class TabListContainer implements IntelliDrinkContainer{
      */
     public void transfer()
     {
+        myGrabber.pushToServer(transactionHistory.get(transactionHistory.size()), myInformation);
 
     }
 
@@ -54,9 +64,22 @@ public class TabListContainer implements IntelliDrinkContainer{
      */
     public void update()
     {
-
+        build(RFID);
     }
 
+    public void build(String RFID)
+    {
+        if(transactionHistory.size() != 0)
+        {
+            transactionHistory.clear();
+        }
+        myGrabber.buildContainer(RFID);
+    }
 
-
+    public void builder(CustomerInformation info, ArrayList<Transaction> list)
+    {
+        myInformation = info;
+        transactionHistory = list;
+        RFID = myInformation.getCustomerRFID();
+    }
 }

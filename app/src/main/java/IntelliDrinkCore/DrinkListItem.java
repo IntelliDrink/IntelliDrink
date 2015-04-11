@@ -13,23 +13,38 @@ public class DrinkListItem {
     private String description;
     private boolean available = false;
     private String arduinoCode;
-    ArrayList<LiteralIngredient> ingredients;
+    ArrayList<DrinkIngredients> ingredients;
 
     public DrinkListItem()
     {
         String recipeName = new String();
         String description = new String();
         arduinoCode = new String();
-        ingredients = new ArrayList<LiteralIngredient>();
+        ingredients = new ArrayList<DrinkIngredients>();
+    }
+
+    public DrinkListItem(String name, String description, String arduinoCode, int id, int recipeId, double price)
+    {
+        this.ID = id;
+        this.recipeID = recipeId;
+        this.recipeName = name;
+        this.description = description;
+        this.price = price;
+        this.arduinoCode = arduinoCode;
     }
 
     public String getArduinoCode() {return this.arduinoCode;}
 
     public void setArduinoCode(String a) { arduinoCode = a; }
 
-    public void addIngredients(LiteralIngredient i) {ingredients.add(i);}
+    public void addIngredients(DrinkIngredients i) {ingredients.add(i);}
 
-    public ArrayList<LiteralIngredient> getIngredients()  {return this.ingredients;}
+    public void setIngredients(ArrayList<DrinkIngredients> i)
+    {
+        ingredients = i;
+    }
+
+    public ArrayList<DrinkIngredients> getIngredients()  {return this.ingredients;}
 
     public int getID() {
         return ID;

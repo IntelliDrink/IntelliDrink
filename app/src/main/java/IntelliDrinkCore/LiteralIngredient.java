@@ -9,6 +9,11 @@ public class LiteralIngredient {
     private int genericIDNumber;
     private Double shotPrice;
 
+    public LiteralIngredient()
+    {
+        literalName = "";
+        shotPrice = 0.0;
+    }
 
 
     public Double getShotPrice() {
