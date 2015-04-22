@@ -155,4 +155,8 @@ public class DrinkListGrabber extends GenericListGrabber{
         if(test != myContainer.getDrinkables())
             myContainer.build();
     }
+
+    public int getSizeOfAvailableRecipes() {
+        return davidsDB.getSizeOfAvailableRecipes();
+    }
 }

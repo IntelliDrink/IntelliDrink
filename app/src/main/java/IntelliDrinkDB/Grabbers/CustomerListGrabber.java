@@ -3,6 +3,7 @@ package IntelliDrinkDB.Grabbers;
 import java.util.ArrayList;
 
 import IntelliDrinkCore.Containers.CustomerListContainer;
+import IntelliDrinkCore.CustomerInformation;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
@@ -24,37 +25,48 @@ public class CustomerListGrabber extends GenericListGrabber{
     public int buildFromRFID(String RFID)
     {
         int id = myDB.getCustomerIDByRFID("Kiosk_1", "password", RFID);
-        build(id);
+        myContainer.buildListOnly(myDB.getTransactionHistory(USERNAME, PASSWORD, id));
         return id;
     }
 
     public int buildfromEmail(String Email)
     {
         int id = myDB.getCustomerIDByEMAIL("Kiosk_1", "password", Email);
-        build(id);
+        myContainer.buildListOnly(myDB.getTransactionHistory(USERNAME, PASSWORD, id));
+        //build();
         return id;
     }
 
-    void build(int customerID)
+    //TODO fix that these are using two different IDs (string RFID and int ID)????
+    void build()
     {
-        ArrayList<Transaction> tmpList = new ArrayList<>();
-        tmpList = myDB.getTransactionHistory("Kiosk_1", "password", customerID);
-        myContainer.build(tmpList);
+        CustomerInformation info = myDB.cusomterInfo(USERNAME, PASSWORD, myContainer.getRFID());
+        ArrayList<Transaction> transactions = myDB.getTransactionHistory(USERNAME, PASSWORD, info.getID());
+        myContainer.build(transactions, info);
     }
 
     public boolean checkout(int id)
     {
-        return false;
+        double balance = myDB.checkOut("Kiosk_1", "password", id);
+        boolean checker = false;
+        if(balance >= 0)
+        {
+            checker = true;
+        }
+        myContainer.setBalance(balance);
+        return checker;
     }
 
 
     public void buildContainer()
     {
-
     }
 
     public void pushToServer()
     {
-
     }
+
+
+    static String USERNAME = "Kiosk_1";
+    static String PASSWORD = "password";
 }

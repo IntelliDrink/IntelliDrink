@@ -2,46 +2,55 @@ package IntelliDrinkCore.Containers;
 
 import java.util.ArrayList;
 
+import IntelliDrinkCore.CustomerInformation;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.Grabbers.CustomerListGrabber;
-import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
 
 /**
  * Created by Terryn-Fredrickson on 4/7/15.
+ *
+ * ONLY USED FOR ADMIN FUNCITONALITY
+ * IMPLEMENTING LAST OF THE 4
  */
 public class CustomerListContainer implements IntelliDrinkContainer{
 
-    ArrayList<Transaction> tabList;
+
+    /**
+     * CLASS IS WRONG
+     */
+    ArrayList<CustomerInformation> tabList;
     String RFID;
     int id;
+    double balance;
 
     CustomerListGrabber myGrabber;
 
     //TODO INTERFACE WITH THE GRABBER
-    public CustomerListContainer(ServerDatabase db)
+    public CustomerListContainer(ServerDatabase db, String rfid)
     {
-        tabList = new ArrayList<Transaction>();
+        //tabList = new ArrayList<Transaction>();
         myGrabber = new CustomerListGrabber(this, db);
+        balance = 0.00;
+        this.RFID = rfid;
     }
 
 
     public void setArrayList(ArrayList<Transaction> list)
     {
-        this.tabList = list;
+        //this.tabList = list;
     }
 
     public ArrayList<Transaction> getArrayList()
     {
-        //return instance.tabList;
-        return this.tabList;
+        return null;
     }
 
 
     public Transaction getTransaction(int i)
     {
         Transaction tmp = new Transaction();
-        tmp = this.tabList.get(i);
+        //tmp = this.tabList.get(i);
         return tmp;
     }
 
@@ -55,21 +64,42 @@ public class CustomerListContainer implements IntelliDrinkContainer{
         id = myGrabber.buildfromEmail(Email);
     }
 
-    public void checkOut()
+    /**
+     * returns false if checkout options failed.
+     * @return
+     */
+    public double checkOut()
     {
         if(myGrabber.checkout(this.id))
         {
-
+            tabList.clear();
+            return balance;
         }
+        else
+            return -1;
     }
 
+    public void setBalance(double val)
+    {
+        this.balance = val;
+    }
+
+    public String getRFID()
+    {
+        return this.RFID;
+    }
+
+    public int getId()
+    {
+        return this.id;
+    }
 
     /**
      * Updates the DB with the info on the class
      */
     @Override
     public void transfer() {
-
+        //TODO NOT USED???
     }
 
     /**
@@ -77,12 +107,18 @@ public class CustomerListContainer implements IntelliDrinkContainer{
      */
     @Override
     public void update() {
-
+        myGrabber.buildContainer();
     }
 
-    public void build(ArrayList<Transaction> tabList)
+    public void buildListOnly(ArrayList<Transaction> tablist)
     {
-        this.tabList = tabList;
+        //this.tabList = tablist;
+    }
+
+    public void build(ArrayList<Transaction> tabList, CustomerInformation info)
+    {
+        //this.tabList = tabList;
+        //this.myCustomerInfo = info;
     }
 
 }

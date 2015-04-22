@@ -1,6 +1,7 @@
 package IntelliDrinkDB.Grabbers;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class TabGrabber extends GenericListGrabber{
         int customerID = tmpInfo.getID();
         ArrayList<Transaction> tmpTransactions = myDB.getTransactionHistory("Kiosk_1", "password", customerID);
         container.builder(tmpInfo, tmpTransactions);
+        Log.d("TabGrabber::buildContainer", "Customer name: " + tmpInfo.getCustomerName());
     }
 
     public void pushToServer(Transaction transaction, CustomerInformation info)

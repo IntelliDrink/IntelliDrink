@@ -80,7 +80,8 @@ public class DrinkListContainer implements IntelliDrinkContainer{
      */
     @Override
     public void update() {
-        //TODO theres got to be a way to not reqrite this whole fucking thing every time we update....
+
+        if(this.drinkCounter != myGrabber.getSizeOfAvailableRecipes())
         build();
     }
 
@@ -93,6 +94,7 @@ public class DrinkListContainer implements IntelliDrinkContainer{
         {
             tabList.clear();
         }
+        this.drinkCounter = myGrabber.getSizeOfAvailableRecipes();
         myGrabber.buildContainer();
 
     }

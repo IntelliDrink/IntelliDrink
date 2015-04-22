@@ -1,6 +1,7 @@
 package IntelliDrinkDB;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -32,6 +33,7 @@ public class ServerDatabase extends Constants {
     public ServerDatabase(){
 
         jParser = new JSONParser();
+        Log.d(this.getClass().toString(), "ServerDatabase Declared");
     }
 
     /**
@@ -134,7 +136,7 @@ public class ServerDatabase extends Constants {
      * Returns: Customer's balance
      */
     public double checkOut(String username, String password, int ID){
-        double balance = 0.00;
+        double balance = -1.00;
         String URL = BASE_URL + URL_CHECK_OUT;
         ArrayList<NameValuePair> params = new ArrayList<>() ;
 
@@ -241,11 +243,22 @@ public class ServerDatabase extends Constants {
             jArray = json.getJSONArray(TAG_CUSTOM);
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject c = jArray.getJSONObject(i);
+                Log.d("CUSTOMER INFO CHECK" , "CUSTOMER INFO CHECK");
+                Log.d("CUSTOMER INFO CHECK" , "CUSTOMER INFO CHECK");
+                Log.d("CUSTOMER INFO CHECK" , "CUSTOMER INFO CHECK");
                 customerInfo.setID(c.getInt(COL_ID));
                 customerInfo.setBalance(c.getDouble(COL_BALANCE));
+                Log.d("Customer Balance Check" , String.valueOf(customerInfo.getBalance()));
                 customerInfo.setCustomerName(c.getString(COL_CUSTOMER_NAME));
                 customerInfo.setCustomerRFID(c.getString(COL_CUSTOMER_RFID));
-                customerInfo.setCoolDown(c.getBoolean(COL_COOL_DOWN));
+                //TODO FIX THIS
+                if(c.getInt(COL_COOL_DOWN) == 0)
+                    customerInfo.setCoolDown(false);
+                else
+                    customerInfo.setCoolDown(true);
+                //TODO THIS GIVES AN ERROR
+                //customerInfo.setCoolDown(c.getBoolean(COL_COOL_DOWN));
+                //ERROR: org.json.JSONException: Value 0 at CoolDown of type java.lang.String cannot be converted to boolean
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import IntelliDrinkCore.Containers.TabListContainer;
+import IntelliDrinkCore.CustomerInformation;
 import IntelliDrinkCore.LiteralIngredient;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.Grabbers.TabGrabber;
@@ -60,9 +61,17 @@ public class CustomerTabActivity extends ActionBarActivity {
     ServerDatabase database;
     LocalDatabaseHelper localDataBase;
 
+    CustomerInformation myActiveCustomer;
+    String balance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_customer_tab);
+
+        this.customersNameText = (TextView) findViewById(R.id.customerTabCustomersNameText);
+        this.customerTotalEditText = (TextView) findViewById(R.id.customerTotalEditText);
+
         customersNameText.setText("Test Customer");
         customerTotalEditText.setText("Total: 9,99$");
 
@@ -70,17 +79,20 @@ public class CustomerTabActivity extends ActionBarActivity {
         myContainer = new TabListContainer(db);
 
         RFID = getIntent().getExtras().getString("RFID");
+        //TODO REMOVE THIS CHECKING STUFF
+        RFID = "TERRAN";
         myContainer.build(RFID);
 
+        myActiveCustomer = myContainer.getMyInformation();
 
-
-        setContentView(R.layout.activity_customer_tab);
+        customersNameText.setText(myActiveCustomer.getCustomerName());
+        //Toast.makeText(this, "Amount owed: " + String.valueOf(myActiveCustomer.getBalance()), Toast.LENGTH_LONG).show();
+        balance = new String(TOTAL_OWED + String.valueOf(myActiveCustomer.getBalance()));
+        customerTotalEditText.setText(balance);
 
         orderDrinkButton = (ImageButton) findViewById(R.id.orderDrinkButton);
         backButton = (ImageButton) findViewById(R.id.backButton);
 
-        customerTotalEditText = (TextView) findViewById(R.id.customerTotalEditText);
-        customersNameText = (TextView) findViewById(R.id.customersNameText);
 
         tabListView = (ListView) findViewById(R.id.customersTabView);
         advertisementImage = (ImageView) findViewById(R.id.advertisementImageView);
@@ -103,7 +115,7 @@ public class CustomerTabActivity extends ActionBarActivity {
 
         public void run() {
 
-            Log.d("Timer", "Event1");
+            //Log.d("Timer", "Event1");
             advertisementImage.setImageResource(imageIds[location++]);
             if(location > imageIds.length - 1)
             {
@@ -168,4 +180,5 @@ public class CustomerTabActivity extends ActionBarActivity {
 
 
     final int TIMER_INTERVAL = 10000;
+    static String TOTAL_OWED = "Total owed: ";
 }

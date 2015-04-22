@@ -1,8 +1,9 @@
 package IntelliDrinkDB.Grabbers;
 
-import IntelliDrinkCore.Containers.KioskDrinkContainer;
-import IntelliDrinkCore.Containers.KioskSlotContainer;
-import IntelliDrinkDB.LocalDatabaseHelper;
+import java.util.ArrayList;
+
+import IntelliDrinkCore.Containers.KioskConfigurationContainer;
+import IntelliDrinkCore.KioskConfiguration;
 import IntelliDrinkDB.ServerDatabase;
 
 /**
@@ -10,24 +11,23 @@ import IntelliDrinkDB.ServerDatabase;
  */
 public class KioskGrabber extends GenericListGrabber {
 
-    KioskSlotContainer slotContainer;
-    KioskDrinkContainer drinkContainer;
+    KioskConfigurationContainer myContainer;
 
-    public KioskGrabber(KioskSlotContainer container, ServerDatabase db)
+    public KioskGrabber(KioskConfigurationContainer container, ServerDatabase db)
     {
         super(db);
-        slotContainer = container;
+        myContainer = container;
 
     }
 
     public void buildContainer()
     {
-
+        ArrayList<KioskConfiguration> data = this.myDB.configureKioskDatabase("Kiosk_1", "password");
     }
 
     public void pushToServer()
     {
-
+        //isn't really needed?
     }
 
 
