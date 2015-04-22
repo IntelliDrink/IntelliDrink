@@ -34,6 +34,11 @@ public class KioskSlotContainer implements IntelliDrinkContainer{
         kioskContainers.add(k);
     }
 
+    public void removeContainer() {
+        int top = kioskContainers.size();
+        kioskContainers.remove(top);
+    }
+
     public void changeKioskDrink(KioskDrinkContainer k, int i)
     {
         kioskContainers.get(i).setIngredients(k);

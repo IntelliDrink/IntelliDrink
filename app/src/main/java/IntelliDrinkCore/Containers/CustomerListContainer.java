@@ -12,8 +12,9 @@ import IntelliDrinkDB.ServerDatabase;
  */
 public class CustomerListContainer implements IntelliDrinkContainer{
 
-    //static CustomerListContainer instance;
     ArrayList<Transaction> tabList;
+    String RFID;
+    int id;
 
     CustomerListGrabber myGrabber;
 
@@ -24,13 +25,6 @@ public class CustomerListContainer implements IntelliDrinkContainer{
         myGrabber = new CustomerListGrabber(this, db);
     }
 
-    /*public synchronized static CustomerListContainer getInstance()
-    {
-        if (instance == null)
-            instance = new CustomerListContainer();
-
-        return instance;
-    }*/
 
     public void setArrayList(ArrayList<Transaction> list)
     {
@@ -51,6 +45,24 @@ public class CustomerListContainer implements IntelliDrinkContainer{
         return tmp;
     }
 
+    public void buildFromRFID(String RFID)
+    {
+        id = myGrabber.buildFromRFID(RFID);
+    }
+
+    public void buildFromEmail(String Email)
+    {
+        id = myGrabber.buildfromEmail(Email);
+    }
+
+    public void checkOut()
+    {
+        if(myGrabber.checkout(this.id))
+        {
+
+        }
+    }
+
 
     /**
      * Updates the DB with the info on the class
@@ -67,4 +79,10 @@ public class CustomerListContainer implements IntelliDrinkContainer{
     public void update() {
 
     }
+
+    public void build(ArrayList<Transaction> tabList)
+    {
+        this.tabList = tabList;
+    }
+
 }

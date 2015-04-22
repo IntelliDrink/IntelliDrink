@@ -31,6 +31,7 @@ import IntelliDrinkCore.Containers.TabListContainer;
 import IntelliDrinkCore.LiteralIngredient;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.Grabbers.TabGrabber;
+import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
 
 
@@ -54,6 +55,10 @@ public class CustomerTabActivity extends ActionBarActivity {
     final int interval = 3000;
     int location = 0;
     int imageIds[] = {R.drawable.tmpimg1, R.drawable.tmpimg2};
+
+
+    ServerDatabase database;
+    LocalDatabaseHelper localDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +158,12 @@ public class CustomerTabActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadDBInfo(LocalDatabaseHelper localDB, ServerDatabase DB)
+    {
+        this.localDataBase = localDB;
+        this.database = DB;
     }
 
 

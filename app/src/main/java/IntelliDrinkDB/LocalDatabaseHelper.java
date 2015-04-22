@@ -199,7 +199,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                     + "true)";
             db.execSQL(SQLString);
         }
-
         checkSlot();
     }
 
@@ -465,6 +464,38 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                 + "WHERE " + Constants.COL_SLOT_NUMBER + " = " + slotNumber;
 
         WRITE.execSQL(SQL);
+    }
+
+    public ArrayList<SlotItem> getSlotItems(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        SlotItem slot;
+        ArrayList<SlotItem> arrayOfSlots = new ArrayList<>();
+        String SQL;
+        SQL = "SELECT * FROM " + TABLE_KIOSK_SLOTS;
+
+
+        Cursor slotItemCursor = db.rawQuery(SQL, null);
+        while (slotItemCursor.moveToNext()) {
+            slot = new SlotItem();
+
+            slot.setID(slotItemCursor.getInt(slotItemCursor.getColumnIndex(Constants.COL_ID)));
+            slot.setSlotNumber(slotItemCursor.getInt(slotItemCursor.getColumnIndex(Constants.COL_SLOT_NUMBER)));
+            slot.setLiteralName(slotItemCursor.getString(slotItemCursor.getColumnIndex(Constants.COL_LITERAL_NAME)));
+            slot.setIngredientID(slotItemCursor.getInt(slotItemCursor.getColumnIndex(Constants.COL_INGREDIENT_ID)));
+            slot.setSlotLevel(slotItemCursor.getInt(slotItemCursor.getColumnIndex(Constants.COL_SLOT_LEVEL)));
+            slot.setShotPrice(slotItemCursor.getDouble(slotItemCursor.getColumnIndex(Constants.COL_SHOT_PRICE)));
+
+            int taco = slotItemCursor.getInt(slotItemCursor.getColumnIndex(Constants.COL_RECIPE_NAME));
+                    if(taco < 1){
+                        slot.setAvailable(false);
+                    } else{
+                        slot.setAvailable(true);
+                    }
+
+            arrayOfSlots.add(slot);
+        }
+
+        return arrayOfSlots;
     }
 
 }

@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import IntelliDrinkDB.LocalDatabaseHelper;
+import IntelliDrinkDB.ServerDatabase;
+
 
 public class CashOutActivity extends ActionBarActivity {
 
@@ -43,6 +46,10 @@ public class CashOutActivity extends ActionBarActivity {
     TextView customersCurrentTabTextEdit;
 
     ListView tabListView;
+
+
+    ServerDatabase database;
+    LocalDatabaseHelper localDataBase;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,5 +168,11 @@ public class CashOutActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadDBInfo(LocalDatabaseHelper localDB, ServerDatabase DB)
+    {
+        this.localDataBase = localDB;
+        this.database = DB;
     }
 }

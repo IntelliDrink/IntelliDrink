@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import IntelliDrinkCore.Containers.DrinkListContainer;
+import IntelliDrinkDB.LocalDatabaseHelper;
+import IntelliDrinkDB.ServerDatabase;
 
 
 public class AdminPanel extends Activity{
@@ -28,6 +30,10 @@ public class AdminPanel extends Activity{
     ListView kioskDispensaryListView;
     ListView drinkSelectorListView;
     String[] tmpList = {"tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp"};
+
+
+    ServerDatabase database;
+    LocalDatabaseHelper localDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,5 +120,11 @@ public class AdminPanel extends Activity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadDBInfo(LocalDatabaseHelper localDB, ServerDatabase DB)
+    {
+        this.localDataBase = localDB;
+        this.database = DB;
     }
 }

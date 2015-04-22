@@ -5,13 +5,19 @@ package IntelliDrinkCore;
  */
 public class KioskConfiguration {
 
+
     private int recipeID;
-    private int ingredientID;
+    private int ingredientID;   //LiteralIngredient.ID
     private int units;
     private int slotNum;
     private int slotLevel;
     private double price;
     private double shotPrice;
+
+    public KioskConfiguration()
+    {
+
+    }
 
     public double getShotPrice() {
         return shotPrice;

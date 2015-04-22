@@ -22,6 +22,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import IntelliDrinkDB.LocalDatabaseHelper;
+import IntelliDrinkDB.ServerDatabase;
+
 
 public class orderScreen extends ActionBarActivity {
 
@@ -39,6 +42,10 @@ public class orderScreen extends ActionBarActivity {
 
     ListView drinkListView;
     String[] tmpList = {"tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp"};
+
+
+    ServerDatabase database;
+    LocalDatabaseHelper localDataBase;
 
 
     @Override
@@ -196,5 +203,10 @@ public class orderScreen extends ActionBarActivity {
         alertDialog2.show();
     }
 
+    public void loadDBInfo(LocalDatabaseHelper localDB, ServerDatabase DB)
+    {
+        this.localDataBase = localDB;
+        this.database = DB;
+    }
 
 }

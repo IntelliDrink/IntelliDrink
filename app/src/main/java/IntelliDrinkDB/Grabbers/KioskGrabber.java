@@ -20,11 +20,17 @@ public class KioskGrabber extends GenericListGrabber {
 
     }
 
-    public KioskGrabber(KioskDrinkContainer container, ServerDatabase db)
+    public void buildContainer()
     {
-        super(db);
-        drinkContainer = container;
+
     }
+
+    public void pushToServer()
+    {
+
+    }
+
+
 
 
 }

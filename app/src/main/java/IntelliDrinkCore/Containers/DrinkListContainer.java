@@ -84,6 +84,9 @@ public class DrinkListContainer implements IntelliDrinkContainer{
         build();
     }
 
+    /**
+     * Used to build the actual list.  Call this on initialization
+     */
     public void build()
     {
         if(tabList.size() > 0)

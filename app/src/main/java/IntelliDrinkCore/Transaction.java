@@ -4,8 +4,10 @@ package IntelliDrinkCore;
  * Created by David on 4/6/2015.
  */
 public class Transaction {
+
     private int ID;
     private double price;
+    private String recipeName;
 
     public Transaction()
     {
@@ -43,6 +45,6 @@ public class Transaction {
         this.price = price;
     }
 
-    private String recipeName;
+
 
 }

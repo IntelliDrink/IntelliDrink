@@ -16,14 +16,14 @@ public class KioskDrinkContainer implements IntelliDrinkContainer{
     ArrayList<LiteralIngredient> ingredients;
     LiteralIngredient activeIngredient;
 
-    KioskGrabber myGrabber;
+    KioskSlotContainer parentContainer;
 
     //TODO INTERFACE WITH THE GRABBER
-    public KioskDrinkContainer(ServerDatabase db)
+    public KioskDrinkContainer(KioskSlotContainer container)
     {
         ingredients = new ArrayList<LiteralIngredient>();
         activeIngredient = new LiteralIngredient();
-        myGrabber = new KioskGrabber(this, db);
+        parentContainer = container;
     }
 
     public LiteralIngredient getIngredient(int i)

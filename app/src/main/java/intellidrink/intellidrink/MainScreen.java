@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import IntelliDrinkCore.Containers.DrinkListContainer;
+import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
 
 
@@ -27,6 +28,7 @@ public class MainScreen extends ActionBarActivity {
     ImageButton mainButton;
     ImageButton adminButton;
     ServerDatabase database;
+    LocalDatabaseHelper localDataBase;
 
 
     @Override
@@ -39,6 +41,8 @@ public class MainScreen extends ActionBarActivity {
 
 
 
+        database = new ServerDatabase();
+        localDataBase = new LocalDatabaseHelper(this);
         mainButton = (ImageButton) findViewById(R.id.mainButton);
         adminButton = (ImageButton) findViewById(R.id.adminButton);
     }
@@ -63,6 +67,7 @@ public class MainScreen extends ActionBarActivity {
                 Bundle extras = new Bundle();
                 extras.putString("RFID", RFID);
                 i.putExtras(extras);
+
                 startActivity(i);
             }
             else
@@ -108,5 +113,11 @@ public class MainScreen extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadDBInfo(LocalDatabaseHelper localDB, ServerDatabase DB)
+    {
+        this.localDataBase = localDB;
+        this.database = DB;
     }
 }
