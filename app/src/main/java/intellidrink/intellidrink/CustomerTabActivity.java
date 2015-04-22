@@ -34,6 +34,7 @@ import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.Grabbers.TabGrabber;
 import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
+import intellidrink.intellidrink.SpecialGuiItems.TabAdapter;
 
 
 public class CustomerTabActivity extends ActionBarActivity {
@@ -102,9 +103,10 @@ public class CustomerTabActivity extends ActionBarActivity {
         location = 1;
         handler.postDelayed(updateTimerThread, 3000);
 
-        ArrayAdapter<Transaction> transactionAdapter = new ArrayAdapter<Transaction>(this,
-                android.R.layout.activity_list_item, myContainer.getTransactionHistory());
-        tabListView.setAdapter(transactionAdapter);
+
+        TabAdapter myTabAdapter = new TabAdapter(this, myContainer);
+        tabListView = (ListView) findViewById(R.id.customersTabView);
+        tabListView.setAdapter(myTabAdapter);
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
