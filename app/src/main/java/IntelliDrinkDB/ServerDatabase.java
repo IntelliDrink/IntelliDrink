@@ -188,6 +188,8 @@ public class ServerDatabase extends Constants {
         KioskConfiguration config = new KioskConfiguration();
         ArrayList<KioskConfiguration> list = new ArrayList<>();
 
+
+
         JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
         try {
             jArray = json.getJSONArray(TAG_CUSTOM);

@@ -20,7 +20,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/customerTabItemPrice"
-        android:gravity="center_vertical"
+        android:gravity="right"
         android:textStyle="italic"
         android:textSize="16dp"
         android:layout_marginTop="5dp"

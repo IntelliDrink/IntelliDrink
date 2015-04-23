@@ -102,5 +102,9 @@ public class DrinkListContainer implements IntelliDrinkContainer{
     public void builder(ArrayList<DrinkListItem> drinks)
     {
         this.tabList = drinks;
+        for(DrinkListItem drink : drinks)
+        {
+
+        }
     }
 }

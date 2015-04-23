@@ -36,8 +36,8 @@
             android:label="@string/title_activity_customer_tab" >
         </activity>
         <activity
-            android:name=".orderScreen"
-            android:label="@string/title_activity_order_screen" >
+            android:name=".OrderScreen"
+            android:label="OrderScreen" >
         </activity>
     </application>
 

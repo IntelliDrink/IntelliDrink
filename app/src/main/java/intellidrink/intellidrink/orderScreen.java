@@ -20,13 +20,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import IntelliDrinkCore.Containers.DrinkListContainer;
+import IntelliDrinkCore.Containers.TabListContainer;
+import IntelliDrinkCore.DrinkListItem;
 import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
+import intellidrink.intellidrink.SpecialGuiItems.DrinkAdapterItem;
+import intellidrink.intellidrink.SpecialGuiItems.DrinkArrayAdapter;
 
 
-public class orderScreen extends ActionBarActivity {
+public class OrderScreen extends ActionBarActivity {
 
     String RFID = "";
 
@@ -47,6 +53,8 @@ public class orderScreen extends ActionBarActivity {
     String[] tmpList = {"tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp"};
 
 
+    TabListContainer myTabListContainer;
+    DrinkListContainer myDrinkContainer;
     ServerDatabase database;
     LocalDatabaseHelper localDataBase;
 
@@ -61,7 +69,27 @@ public class orderScreen extends ActionBarActivity {
 
 
         setContentView(R.layout.activity_order_screen);
+        identifyGUIObjects();
 
+        Intent myIntent = getIntent();
+        Bundle b = myIntent.getExtras();
+        RFID = b.getString("RFID");
+
+        drinkListView = (ListView) findViewById(R.id.drinkListView);
+
+        buildDatabase();
+
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+    }
+
+    /**
+     * Build GUI Objects
+     */
+    void identifyGUIObjects()
+    {
         orderButton = (ImageButton) findViewById(R.id.orderButton);
         backButton = (ImageButton) findViewById(R.id.backButton);
 
@@ -74,20 +102,61 @@ public class orderScreen extends ActionBarActivity {
         searchButton = (Button) findViewById(R.id.searchButton);
         searchEditText = (EditText) findViewById(R.id.searchEditText);
 
+    }
 
-        drinkListView = (ListView) findViewById(R.id.drinkListView);
-        ArrayAdapter<String> tmpAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, tmpList);
-        drinkListView.setAdapter(tmpAdapter);
+    ArrayList<DrinkAdapterItem> buildDummyList()
+    {
+        ArrayList<DrinkAdapterItem> bullshit = new ArrayList<>();
+        DrinkAdapterItem shit;
+        shit = new DrinkAdapterItem("Cosmo", "$7.00");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Dry Martini", "$8.50");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Rum and Coke", "$4.50");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Vodka Tonic", "$3.50");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Cosmo", "$7.00");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Dry Martini", "$8.50");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Rum and Coke", "$4.50");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Vodka Tonic", "$3.50");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Cosmo", "$7.00");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Dry Martini", "$8.50");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Rum and Coke", "$4.50");
+        bullshit.add(shit);
+        shit = new DrinkAdapterItem("Vodka Tonic", "$3.50");
+        return bullshit;
+    }
 
-        Intent myIntent = getIntent();
-        Bundle b = myIntent.getExtras();
+    /**
+     * sets up the DB objects and the required containers
+     */
+    void buildDatabase()
+    {
+        this.database = new ServerDatabase();
+        this.localDataBase = new LocalDatabaseHelper(this.getApplicationContext());
+        this.myDrinkContainer = new DrinkListContainer(database, localDataBase);
+        this.myTabListContainer = new TabListContainer(database);
 
-        RFID = b.getString("RFID");
-
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        myTabListContainer.build(this.RFID);
+        myDrinkContainer.build();
+        ArrayList<DrinkAdapterItem> myListData = buildDummyList();
+        DrinkAdapterItem dataItem;
+        /*for(DrinkListItem drink : myDrinkContainer.getArrayList())
+        {
+            String name = drink.getRecipeName();
+            String price = String.valueOf(drink.getPrice());
+            dataItem = new DrinkAdapterItem(name, price);
+            myListData.add(dataItem);
+        }*/
+        DrinkArrayAdapter adapter = new DrinkArrayAdapter(this, myListData);
+        drinkListView.setAdapter(adapter);
     }
 
     public void onClickOrderScreen(View v)
@@ -144,7 +213,7 @@ public class orderScreen extends ActionBarActivity {
     void confirmationDialog()
     {
         AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
-                orderScreen.this);
+                OrderScreen.this);
 
         alertDialog2.setTitle("Drink Confirmation");
 
@@ -187,7 +256,7 @@ public class orderScreen extends ActionBarActivity {
     void wouldYouLikeAnotherDialog()
     {
         AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
-                orderScreen.this);
+                OrderScreen.this);
 
         alertDialog2.setTitle("Moar???");
 
@@ -214,11 +283,4 @@ public class orderScreen extends ActionBarActivity {
                 });
         alertDialog2.show();
     }
-
-    public void loadDBInfo(LocalDatabaseHelper localDB, ServerDatabase DB)
-    {
-        this.localDataBase = localDB;
-        this.database = DB;
-    }
-
 }

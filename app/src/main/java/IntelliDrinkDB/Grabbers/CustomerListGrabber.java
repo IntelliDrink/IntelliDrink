@@ -15,7 +15,6 @@ public class CustomerListGrabber extends GenericListGrabber{
 
     CustomerListContainer myContainer;
 
-
     public CustomerListGrabber(CustomerListContainer container, ServerDatabase db)
     {
         super(db);

@@ -14,6 +14,7 @@ public class DrinkListItem {
     private boolean available = false;
     private String arduinoCode;
     ArrayList<DrinkIngredients> ingredients;
+    private String baseLiquor;
 
     public DrinkListItem()
     {
@@ -31,6 +32,16 @@ public class DrinkListItem {
         this.description = description;
         this.price = price;
         this.arduinoCode = arduinoCode;
+    }
+
+    public void setBaseLiquor(String liquor)
+    {
+        this.baseLiquor = liquor;
+    }
+
+    public String getBaseLiquor()
+    {
+        return this.baseLiquor;
     }
 
     public String getArduinoCode() {return this.arduinoCode;}

@@ -38,6 +38,7 @@ public class DrinkListGrabber extends GenericListGrabber{
 
         String arduinoCode = "";
         //first grab the whole list of drinks
+        //davidsDB.configureDatabase("Kiosk_1", "password");
         tmpList = davidsDB.getAvailableRecipes();
         int MAX = tmpList.size();
         int id;

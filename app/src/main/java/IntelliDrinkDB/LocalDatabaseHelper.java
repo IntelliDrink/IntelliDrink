@@ -72,7 +72,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // creating required tables
         db.execSQL(CREATE_TABLE_DRINK_LIST);
-        db.execSQL(CREATE_TABLE_DRINK_LIST);
         db.execSQL(CREATE_TABLE_RECIPE_NEEDS);
         db.execSQL(CREATE_TABLE_KIOSK_SLOTS);
     }
@@ -311,11 +310,14 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<DrinkListItem> getAvailableRecipes() {
         SQLiteDatabase db = this.getReadableDatabase();
         String MySQLString = "SELECT * FROM " + TABLE_DRINK_LIST + " "
-                + "WHERE " + Constants.COL_AVAILABLE + " = TRUE";
+                + "WHERE " + Constants.COL_AVAILABLE + " = 1";
+        Log.d("getAvailableRecipes", MySQLString);
         Cursor point = db.rawQuery(MySQLString, null);
         ArrayList<DrinkListItem> recipeList = new ArrayList<>();
-        DrinkListItem recipe = null;
+        DrinkListItem recipe;
+        int i= 0;
         while (point.moveToNext()) {
+            Log.d("Loop Checking", "penis x " + i);
             recipe = new DrinkListItem();
             recipe.setID(point.getInt(point.getColumnIndex(Constants.COL_ID)));
             recipe.setRecipeID(point.getInt(point.getColumnIndex(Constants.COL_RECIPE_ID)));
@@ -339,8 +341,8 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      */
     public int getSizeOfAvailableRecipes() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String MySQLString = "SELECT COUNT ID FROM " + TABLE_DRINK_LIST + " "
-                + "WHERE " + Constants.COL_AVAILABLE + " = TRUE";
+        String MySQLString = "SELECT COUNT (ID) FROM " + TABLE_DRINK_LIST + " "
+                + "WHERE " + Constants.COL_AVAILABLE + " = 1";
         Cursor sCount = db.rawQuery(MySQLString, null);
         sCount.moveToFirst();
         return sCount.getInt(0);

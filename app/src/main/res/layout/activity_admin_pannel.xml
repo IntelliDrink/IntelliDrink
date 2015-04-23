@@ -27,7 +27,8 @@
         android:layout_width="350dp"
         android:layout_height="358dp"
         android:id="@+id/kioskDispensaryList"
-        android:layout_gravity="left|top" />
+        android:layout_gravity="left|top"
+        android:choiceMode="singleChoice" />
 
     <Button
         android:layout_width="350dp"
@@ -41,7 +42,8 @@
         android:layout_width="350dp"
         android:layout_height="450dp"
         android:id="@+id/drinkSelectorListView"
-        android:layout_gravity="center_horizontal|top" />
+        android:layout_gravity="center_horizontal|top"
+        android:choiceMode="singleChoice" />
 
     <Button
         android:layout_width="350dp"

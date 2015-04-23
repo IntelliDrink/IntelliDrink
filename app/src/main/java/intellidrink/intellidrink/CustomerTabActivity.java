@@ -148,7 +148,7 @@ public class CustomerTabActivity extends ActionBarActivity {
     {
         if(v.getId() == R.id.orderDrinkButton)
         {
-            Intent i = new Intent(this, orderScreen.class);
+            Intent i = new Intent(this, OrderScreen.class);
             Bundle b = new Bundle();
             b.putCharSequence("RFID", RFID);
             i.putExtras(b);
