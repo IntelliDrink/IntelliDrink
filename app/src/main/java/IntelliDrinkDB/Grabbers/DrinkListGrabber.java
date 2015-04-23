@@ -1,5 +1,6 @@
 package IntelliDrinkDB.Grabbers;
 
+import android.os.StrictMode;
 import android.util.Log;
 
 import java.lang.reflect.Array;
@@ -29,6 +30,10 @@ public class DrinkListGrabber extends GenericListGrabber{
         super(db);
         myContainer = container;
         davidsDB = db2;
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public void buildContainer()
@@ -38,7 +43,7 @@ public class DrinkListGrabber extends GenericListGrabber{
 
         String arduinoCode = "";
         //first grab the whole list of drinks
-        //davidsDB.configureDatabase("Kiosk_1", "password");
+        davidsDB.configureDatabase("Kiosk_1", "password");
         tmpList = davidsDB.getAvailableRecipes();
         int MAX = tmpList.size();
         int id;

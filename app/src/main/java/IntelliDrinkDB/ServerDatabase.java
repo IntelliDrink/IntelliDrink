@@ -1,5 +1,6 @@
 package IntelliDrinkDB;
 
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -34,6 +35,10 @@ public class ServerDatabase extends Constants {
 
         jParser = new JSONParser();
         Log.d(this.getClass().toString(), "ServerDatabase Declared");
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     /**
@@ -181,14 +186,12 @@ public class ServerDatabase extends Constants {
         ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
-        params.add(new BasicNameValuePair(TAG_PASSWORD, password));;
+        params.add(new BasicNameValuePair(TAG_PASSWORD, password));
 
         JSONArray jArray = null;
 
         KioskConfiguration config = new KioskConfiguration();
         ArrayList<KioskConfiguration> list = new ArrayList<>();
-
-
 
         JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
         try {

@@ -57,9 +57,9 @@ public class DrinkArrayAdapter extends ArrayAdapter<DrinkAdapterItem> {
         return row;
     }
 
-    private static class DrinkHolder
-    {
-        TextView name;
+        private static class DrinkHolder
+        {
+            TextView name;
         TextView price;
     }
 }

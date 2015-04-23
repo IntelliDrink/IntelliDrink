@@ -144,19 +144,26 @@ public class OrderScreen extends ActionBarActivity {
         this.myDrinkContainer = new DrinkListContainer(database, localDataBase);
         this.myTabListContainer = new TabListContainer(database);
 
+
         myTabListContainer.build(this.RFID);
         myDrinkContainer.build();
+
         ArrayList<DrinkAdapterItem> myListData = buildDummyList();
         DrinkAdapterItem dataItem;
-        /*for(DrinkListItem drink : myDrinkContainer.getArrayList())
+        for(DrinkListItem drink : myDrinkContainer.getArrayList())
         {
             String name = drink.getRecipeName();
             String price = String.valueOf(drink.getPrice());
             dataItem = new DrinkAdapterItem(name, price);
             myListData.add(dataItem);
-        }*/
+        }
         DrinkArrayAdapter adapter = new DrinkArrayAdapter(this, myListData);
         drinkListView.setAdapter(adapter);
+
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public void onClickOrderScreen(View v)

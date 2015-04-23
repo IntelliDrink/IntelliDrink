@@ -29,7 +29,7 @@ public class TabAdapter extends ArrayAdapter<TabAdapterItem> {
     /**
      * Constructor
      *
-     * @param context  The current context.
+     * @param context The current context.
      */
     public TabAdapter(Context context, ArrayList<TabAdapterItem> data) {
         super(context, layoutResourseID, data);
@@ -38,21 +38,18 @@ public class TabAdapter extends ArrayAdapter<TabAdapterItem> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         //Log.d("GetView: " , "Building View");
         TabHolder holder;
-        if(row == null) {
+        if (row == null) {
             row = LayoutInflater.from(myContext).inflate(layoutResourseID, null);
             holder = new TabHolder();
             row.setTag(holder);
             holder.name = (TextView) row.findViewById(R.id.customerTabItemName);
-            holder.price =  (TextView) row.findViewById(R.id.customerTabItemPrice);
-        }
-        else
-        {
-            holder = (TabHolder)convertView.getTag();
+            holder.price = (TextView) row.findViewById(R.id.customerTabItemPrice);
+        } else {
+            holder = (TabHolder) convertView.getTag();
         }
         TabAdapterItem item = data.get(position);
         holder.name.setText(item.getDrinkName());
@@ -63,8 +60,7 @@ public class TabAdapter extends ArrayAdapter<TabAdapterItem> {
     }
 
 
-    private static class TabHolder
-    {
+    private static class TabHolder {
         TextView name;
         TextView price;
     }

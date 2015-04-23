@@ -2,6 +2,7 @@ package intellidrink.intellidrink;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,9 +15,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import IntelliDrinkCore.Containers.DrinkListContainer;
 import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
+import IntelliDrinkUSB.driver.ProbeTable;
+import intellidrink.intellidrink.SpecialGuiItems.KioskListAdapter;
+import intellidrink.intellidrink.SpecialGuiItems.KioskListItem;
+import intellidrink.intellidrink.SpecialGuiItems.LiteralIngredientListAdapter;
+import intellidrink.intellidrink.SpecialGuiItems.LiteralIngredientListItem;
 
 
 public class AdminPanel extends Activity{
@@ -31,6 +40,10 @@ public class AdminPanel extends Activity{
     ListView drinkSelectorListView;
     String[] tmpList = {"tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp"};
 
+    KioskListAdapter kioskListAdapter;
+    ArrayList<KioskListItem> kioskData;
+    LiteralIngredientListAdapter literalIngredientListAdapter;
+    ArrayList<LiteralIngredientListItem> ingredientsData;
 
     ServerDatabase database;
     LocalDatabaseHelper localDataBase;
@@ -38,15 +51,19 @@ public class AdminPanel extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Remove title bar
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        //Remove notification bar
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
         setContentView(R.layout.activity_admin_pannel);
 
+        doGUIThings();
+        doServerThings();
+
+        //TODO FIX THIS ADAPTER
+        doAdapterThings();
+    }
+
+    void doGUIThings()
+    {
         loadKioskButton = (Button) findViewById(R.id.loadAppButton);
         testUSBButton = (Button) findViewById(R.id.USBTestButton);
         checkoutButton = (Button) findViewById(R.id.checkoutScreenButton);
@@ -55,13 +72,85 @@ public class AdminPanel extends Activity{
         kioskDispensaryListView = (ListView) findViewById(R.id.kioskDispensaryList);
         drinkSelectorListView = (ListView) findViewById(R.id.drinkSelectorListView);
 
-        //TODO FIX THIS ADAPTER
-        ArrayAdapter<String> tmpAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, tmpList);
-        kioskDispensaryListView.setAdapter(tmpAdapter);
-        drinkSelectorListView.setAdapter(tmpAdapter);
+    }
+
+    public void doServerThings()
+    {
+        //loljk right now
+
+    }
+
+    ArrayList<KioskListItem> getDummyKiosks()
+    {
+        ArrayList<KioskListItem> dummyList = new ArrayList<>();
+        KioskListItem kioskthing;
+        kioskthing = new KioskListItem("Kiosk_1");
+        dummyList.add(kioskthing);
+        kioskthing = new KioskListItem("Kiosk_2");
+        dummyList.add(kioskthing);
+        kioskthing = new KioskListItem("Kiosk_3");
+        dummyList.add(kioskthing);
+        kioskthing = new KioskListItem("Kiosk_4");
+        dummyList.add(kioskthing);
+        kioskthing = new KioskListItem("Kiosk_5");
+        dummyList.add(kioskthing);
+        return dummyList;
+    }
+
+    ArrayList<LiteralIngredientListItem> getIngredientsData()
+    {
+        ArrayList<LiteralIngredientListItem> dummyList = new ArrayList<>();
+        LiteralIngredientListItem ingredItem;
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        ingredItem = new LiteralIngredientListItem("Rum", "1.50");
+        dummyList.add(ingredItem);
+        return dummyList;
+    }
+
+    void doAdapterThings()
+    {
+        //kioskData = new ArrayList<>();
+        kioskData = getDummyKiosks();
+        kioskListAdapter = new KioskListAdapter(this, kioskData);
 
 
+        //ingredientsData = new ArrayList<>();
+        ingredientsData = getIngredientsData();
+        literalIngredientListAdapter = new LiteralIngredientListAdapter(this, ingredientsData);
+
+
+        kioskDispensaryListView.setAdapter(kioskListAdapter);
+        drinkSelectorListView.setAdapter(literalIngredientListAdapter);
+
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public void buttonClick(View v)
