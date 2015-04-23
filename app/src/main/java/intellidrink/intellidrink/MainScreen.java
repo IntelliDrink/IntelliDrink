@@ -96,7 +96,7 @@ public class MainScreen extends ActionBarActivity {
         String RFID = "";
 
         //TODO:REMOVETHIS
-        RFID = "12345678";
+        RFID = "PROTOSS";
         return RFID;
     }
 

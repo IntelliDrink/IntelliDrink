@@ -35,6 +35,7 @@ import IntelliDrinkDB.Grabbers.TabGrabber;
 import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
 import intellidrink.intellidrink.SpecialGuiItems.TabAdapter;
+import intellidrink.intellidrink.SpecialGuiItems.TabAdapterItem;
 
 
 public class CustomerTabActivity extends ActionBarActivity {
@@ -45,7 +46,7 @@ public class CustomerTabActivity extends ActionBarActivity {
     TextView customerTotalEditText;
     TextView customersNameText;
 
-    ListView tabListView;
+    ListView customersTabView;
 
 
     ServerDatabase db;
@@ -67,6 +68,7 @@ public class CustomerTabActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_tab);
 
@@ -95,7 +97,7 @@ public class CustomerTabActivity extends ActionBarActivity {
         backButton = (ImageButton) findViewById(R.id.backButton);
 
 
-        tabListView = (ListView) findViewById(R.id.customersTabView);
+        customersTabView = (ListView) findViewById(R.id.customersTabView);
         advertisementImage = (ImageView) findViewById(R.id.advertisementImageView);
 
 
@@ -104,9 +106,18 @@ public class CustomerTabActivity extends ActionBarActivity {
         handler.postDelayed(updateTimerThread, 3000);
 
 
-        TabAdapter myTabAdapter = new TabAdapter(this, myContainer);
-        tabListView = (ListView) findViewById(R.id.customersTabView);
-        tabListView.setAdapter(myTabAdapter);
+        ArrayList<TabAdapterItem> adapterItems = new ArrayList<>();
+        TabAdapterItem item;
+        for(Transaction transaction : myContainer.getTransactionHistory())
+        {
+            String n = transaction.getRecipeName();
+            String p = "$ " + String.valueOf(transaction.getPrice());
+            item = new TabAdapterItem(n, p);
+            adapterItems.add(item);
+        }
+
+        TabAdapter myTabAdapter = new TabAdapter(this, adapterItems);
+        customersTabView.setAdapter(myTabAdapter);
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -138,6 +149,9 @@ public class CustomerTabActivity extends ActionBarActivity {
         if(v.getId() == R.id.orderDrinkButton)
         {
             Intent i = new Intent(this, orderScreen.class);
+            Bundle b = new Bundle();
+            b.putCharSequence("RFID", RFID);
+            i.putExtras(b);
             startActivity(i);
         }
         else if(v.getId() == R.id.backButton)

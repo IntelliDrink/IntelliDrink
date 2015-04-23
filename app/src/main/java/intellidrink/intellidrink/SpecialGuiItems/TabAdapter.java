@@ -2,11 +2,14 @@ package intellidrink.intellidrink.SpecialGuiItems;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.widget.ViewDragHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,55 +23,47 @@ import intellidrink.intellidrink.R;
 public class TabAdapter extends ArrayAdapter<TabAdapterItem> {
 
     ArrayList<TabAdapterItem> data;
-    TabListContainer tabListContainer;
     static int layoutResourseID = R.layout.tab_item;
+    Context myContext;
 
     /**
      * Constructor
      *
      * @param context  The current context.
      */
-    public TabAdapter(Context context, TabListContainer container) {
-        super(context, layoutResourseID);
-        this.tabListContainer = container;
-        TabAdapterItem tmpItem;
-        for(Transaction transaction : container.getTransactionHistory())
-        {
-            String name = transaction.getRecipeName();
-            double price = transaction.getPrice();
-            tmpItem = new TabAdapterItem(name, price);
-            data.add(tmpItem);
-        }
+    public TabAdapter(Context context, ArrayList<TabAdapterItem> data) {
+        super(context, layoutResourseID, data);
+        this.data = data;
+        myContext = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
         View row = convertView;
-
-        TabAdapterItem item = getItem(position);
-
-        TabHolder holder = null;
-        if(row == null)
-        {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
+        //Log.d("GetView: " , "Building View");
+        TabHolder holder;
+        if(row == null) {
+            row = LayoutInflater.from(myContext).inflate(layoutResourseID, null);
             holder = new TabHolder();
-            convertView = inflater.inflate(layoutResourseID, parent, false);
-            holder.name = (TextView) convertView.findViewById(R.id.customerTabItemName);
-            holder.price = (TextView) convertView.findViewById(R.id.customerTabItemPrice);
-
-            convertView.setTag(holder);
+            row.setTag(holder);
+            holder.name = (TextView) row.findViewById(R.id.customerTabItemName);
+            holder.price =  (TextView) row.findViewById(R.id.customerTabItemPrice);
         }
         else
-            holder = (TabHolder) convertView.getTag();
-
+        {
+            holder = (TabHolder)convertView.getTag();
+        }
+        TabAdapterItem item = data.get(position);
         holder.name.setText(item.getDrinkName());
-        holder.price.setText(String.valueOf(item.getPrice()));
+        holder.price.setText(item.getPrice());
+
 
         return row;
     }
 
-    static class TabHolder
+
+    private static class TabHolder
     {
         TextView name;
         TextView price;

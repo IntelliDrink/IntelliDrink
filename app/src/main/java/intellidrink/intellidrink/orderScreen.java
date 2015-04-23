@@ -28,6 +28,9 @@ import IntelliDrinkDB.ServerDatabase;
 
 public class orderScreen extends ActionBarActivity {
 
+    String RFID = "";
+
+
     ImageButton orderButton;
     ImageButton backButton;
 
@@ -77,6 +80,12 @@ public class orderScreen extends ActionBarActivity {
                 (this, android.R.layout.simple_list_item_1, tmpList);
         drinkListView.setAdapter(tmpAdapter);
 
+        Intent myIntent = getIntent();
+        Bundle b = myIntent.getExtras();
+
+        RFID = b.getString("RFID");
+
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
@@ -93,6 +102,9 @@ public class orderScreen extends ActionBarActivity {
         else if(v.getId() == R.id.backButton)
         {
             Intent i = new Intent(this, CustomerTabActivity.class);
+            Bundle b = new Bundle();
+            b.putString("RFID", RFID);
+            i.putExtras(b);
             startActivity(i);
         }
         else if(v.getId() == R.id.searchButton)

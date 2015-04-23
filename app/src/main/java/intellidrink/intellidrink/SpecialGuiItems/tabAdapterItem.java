@@ -6,12 +6,12 @@ package intellidrink.intellidrink.SpecialGuiItems;
 public class TabAdapterItem {
 
     private String drinkName;
-    private double price;
+    private String price;
 
     public TabAdapterItem()
     {}
 
-    public TabAdapterItem(String name, double p)
+    public TabAdapterItem(String name, String p)
     {
         drinkName = name;
         price = p;
@@ -22,7 +22,7 @@ public class TabAdapterItem {
         return this.drinkName;
     }
 
-    public double getPrice()
+    public String getPrice()
     {
         return this.price;
     }
@@ -32,7 +32,7 @@ public class TabAdapterItem {
         this.drinkName = n;
     }
 
-    public void setPrice(double n)
+    public void setPrice(String n)
     {
         this.price = n;
     }

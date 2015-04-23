@@ -29,7 +29,9 @@
                 android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/customersTabView"
-                android:layout_gravity="left|center_vertical" />
+                android:layout_gravity="left|center_vertical"
+                android:choiceMode="singleChoice"
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="300dp"

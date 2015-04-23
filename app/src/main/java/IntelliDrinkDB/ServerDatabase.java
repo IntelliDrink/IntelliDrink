@@ -278,16 +278,18 @@ public class ServerDatabase extends Constants {
      * 		|  ID    |  Price  |  RecipeName  |
      *      Integer   Double	   String
      */
-    public ArrayList<Transaction> getTransactionHistory(String username, String password, int CustomerID){
+    public ArrayList<Transaction> getTransactionHistory(String username, String password, int ID){
         String URL = BASE_URL + URL_GET_TRANSACTION_HISTORY;
         JSONArray jArray = null;
         ArrayList<NameValuePair> params = new ArrayList<>() ;
 
         params.add(new BasicNameValuePair(TAG_USERNAME, username));
         params.add(new BasicNameValuePair(TAG_PASSWORD, password));
-        params.add(new BasicNameValuePair(COL_CUSTOMER_ID, "" + CustomerID));
+        //params.add(new BasicNameValuePair(COL_CUSTOMER_ID, "" + CustomerID));
+        params.add(new BasicNameValuePair(COL_ID, "" + ID));
 
-       Transaction item = new Transaction();
+
+        Transaction item = new Transaction();
        ArrayList<Transaction> history = new ArrayList<>();
         JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
         try {

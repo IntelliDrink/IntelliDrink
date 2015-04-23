@@ -29,8 +29,9 @@ public class TabGrabber extends GenericListGrabber{
         CustomerInformation tmpInfo = myDB.cusomterInfo(username, password, RFID);
         int customerID = tmpInfo.getID();
         ArrayList<Transaction> tmpTransactions = myDB.getTransactionHistory("Kiosk_1", "password", customerID);
+
         container.builder(tmpInfo, tmpTransactions);
-        Log.d("TabGrabber::buildContainer", "Customer name: " + tmpInfo.getCustomerName());
+        //Log.d("TabGrabber::buildContainer", "Customer name: " + tmpInfo.getCustomerName());
     }
 
     public void pushToServer(Transaction transaction, CustomerInformation info)
