@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +21,15 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
+import IntelliDrinkCore.Containers.TabListContainer;
+import IntelliDrinkCore.CustomerInformation;
+import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
+import intellidrink.intellidrink.SpecialGuiItems.TabAdapter;
+import intellidrink.intellidrink.SpecialGuiItems.TabAdapterItem;
 
 
 public class CashOutActivity extends ActionBarActivity {
@@ -88,8 +96,6 @@ public class CashOutActivity extends ActionBarActivity {
         searchEditText = (EditText) findViewById(R.id.searchForNameEditText);
 
         customerListView = (ListView) findViewById(R.id.customerListView);
-        loadCustomerListViewAdapter();
-
 
 
         customerNameTextEdit = (TextView) findViewById(R.id.customerNameTextEdit);
@@ -98,22 +104,38 @@ public class CashOutActivity extends ActionBarActivity {
 
         tabListView = (ListView) findViewById(R.id.tabListViewCashOutActivity);
 
+        database = new ServerDatabase();
+        loadCustomerListViewAdapter();
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
-
     void loadCustomerListViewAdapter()
     {
-        ArrayAdapter<String> tmpAdapter;
-    }
+        ArrayList<String> customerNameList = new ArrayList<>();
+        ArrayList<CustomerInformation> tempList = database.getCustomers("Kiosk_1", "password");
+        for (CustomerInformation ci : tempList) {
+            customerNameList.add(ci.getCustomerName());
+        }
+        customerListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, customerNameList));
+        customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TabListContainer myContainer = new TabListContainer(database);
+                myContainer.build(getIntent().getExtras().getString("RFID"));
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_cash_out, menu);
-        return true;
+                ArrayList<TabAdapterItem> adapterItems = new ArrayList<>();
+                TabAdapterItem item;
+                for (Transaction transaction : myContainer.getTransactionHistory()) {
+                    String n = transaction.getRecipeName();
+                    String p = "$ " + String.valueOf(transaction.getPrice());
+                    item = new TabAdapterItem(n, p);
+                    adapterItems.add(item);
+                }
+                tabListView.setAdapter(new TabAdapter(getApplicationContext(), adapterItems));
+            }
+        });
     }
-
     public void onClickCashOutActivity(View v)
     {
         if(v.getId() == R.id.createNewCustomerButton)

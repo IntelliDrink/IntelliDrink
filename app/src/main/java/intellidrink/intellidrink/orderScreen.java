@@ -180,36 +180,52 @@ public class OrderScreen extends ActionBarActivity {
 
 
 
+
     public void onClickOrderScreen(View v)
     {
-        if(v.getId() == R.id.orderButton)
-        {
-            //ErrorAlert e = new ErrorAlert(this);
-            //Toast.makeText(this, "ordering Drink", Toast.LENGTH_SHORT).show();
-            if(this.activeDrink != null)
-                confirmationDialog();
+        switch(v.getId()) {
+            case R.id.orderButton:
+                //ErrorAlert e = new ErrorAlert(this);
+                //Toast.makeText(this, "ordering Drink", Toast.LENGTH_SHORT).show();
+                if(this.activeDrink != null)
+                    confirmationDialog();
 
-            //e.showErrorDialog("NYI", "This event is not implemented yet");
-        }
-        else if(v.getId() == R.id.backButton)
-        {
-            Intent i = new Intent(this, CustomerTabActivity.class);
-            Bundle b = new Bundle();
-            b.putString("RFID", RFID);
-            i.putExtras(b);
-            startActivity(i);
-            finish();
-        }
-        else if(v.getId() == R.id.searchButton)
-        {
-            ErrorAlert e = new ErrorAlert(this);
-            e.showErrorDialog("NYI", "This event is not implemented yet");
-        }
-        else
-        {
-            Toast.makeText(this, "Shits broken yo", Toast.LENGTH_SHORT);
-        }
+                //e.showErrorDialog("NYI", "This event is not implemented yet");
+                break;
 
+            case R.id.backButton:
+                Intent i = new Intent(this, CustomerTabActivity.class);
+                Bundle b = new Bundle();
+                b.putString("RFID", RFID);
+                i.putExtras(b);
+                startActivity(i);
+                finish();
+                break;
+
+            case R.id.searchButton:
+                ArrayList<DrinkAdapterItem> myListData = new ArrayList<>();
+                for(DrinkListItem drink : myDrinkContainer.getArrayList())
+                {
+                    if (searchEditText.toString().toLowerCase().equals(drink.getRecipeName().toLowerCase()))
+                    {
+                        myListData.add(new DrinkAdapterItem(drink.getRecipeName(), String.valueOf(drink.getPrice())));
+                    }
+                }
+                drinkListView.setAdapter(new DrinkArrayAdapter(this, myListData));
+                drinkListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        doListItemOnClick(parent, view, position, id);
+                    }
+                });
+                break;
+
+            default:
+                Toast.makeText(this, "Shits broken yo", Toast.LENGTH_SHORT).show();
+                break;
+
+
+        }
     }
 
     @Override
@@ -278,7 +294,7 @@ public class OrderScreen extends ActionBarActivity {
                     port.write(activeDrink.getArduinoCode().getBytes(), 200);
                 }
 
-                //TODO David's database stuff for making a drink
+
 
             } catch (IOException e) {
                 e.printStackTrace();

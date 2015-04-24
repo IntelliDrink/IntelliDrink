@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import IntelliDrinkCore.CustomerInformation;
+import IntelliDrinkCore.DrinkListItem;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.Grabbers.TabGrabber;
 import IntelliDrinkDB.LocalDatabaseHelper;
@@ -38,6 +39,11 @@ public class TabListContainer implements IntelliDrinkContainer{
         return transactionHistory;
     }
 
+    public void orderDrink(DrinkListItem drink)
+    {
+        this.myGrabber.pushToServer(drink, myInformation);
+    }
+
     public void addTransaction(Transaction a)
     {
         transactionHistory.add(a);
@@ -55,7 +61,7 @@ public class TabListContainer implements IntelliDrinkContainer{
      */
     public void transfer()
     {
-        myGrabber.pushToServer(transactionHistory.get(transactionHistory.size()), myInformation);
+        //myGrabber.pushToServer(transactionHistory.get(transactionHistory.size()), myInformation);
 
     }
 

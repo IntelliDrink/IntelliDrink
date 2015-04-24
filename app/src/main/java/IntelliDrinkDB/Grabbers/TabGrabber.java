@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import IntelliDrinkCore.Containers.TabListContainer;
 import IntelliDrinkCore.CustomerInformation;
+import IntelliDrinkCore.DrinkListItem;
 import IntelliDrinkCore.Transaction;
 import IntelliDrinkDB.LocalDatabaseHelper;
 import IntelliDrinkDB.ServerDatabase;
@@ -34,10 +35,9 @@ public class TabGrabber extends GenericListGrabber{
         //Log.d("TabGrabber::buildContainer", "Customer name: " + tmpInfo.getCustomerName());
     }
 
-    public void pushToServer(Transaction transaction, CustomerInformation info)
+    public void pushToServer(DrinkListItem transaction, CustomerInformation info)
     {
-        myDB.customerTransaction(username, password, info.getID(), transaction.getID(), 1, transaction.getPrice());
+        myDB.customerTransaction(username, password, info.getID(), transaction.getRecipeID(), 1, transaction.getPrice());
     }
-
 
 }
