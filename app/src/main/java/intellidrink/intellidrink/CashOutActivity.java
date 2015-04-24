@@ -1,5 +1,7 @@
 package intellidrink.intellidrink;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +26,10 @@ import IntelliDrinkDB.ServerDatabase;
 
 public class CashOutActivity extends ActionBarActivity {
 
+
+    private static String ADMIN_USERNAME = "Admin";
+    private static String ADMIN_PASSWORD = "12345678";
+
     Button createNewCustomerButton;
     Button cashOutCustomerButton;
     Button editCustomersTabButton;
@@ -39,13 +45,14 @@ public class CashOutActivity extends ActionBarActivity {
     EditText searchEditText;
 
     ListView customerListView;
-    String[] tmpList = {"tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp", "tmp"};
 
     TextView customerNameTextEdit;
     TextView customersRFIDTextEdit;
     TextView customersCurrentTabTextEdit;
 
     ListView tabListView;
+
+    boolean adminMode;
 
 
     ServerDatabase database;
@@ -54,12 +61,14 @@ public class CashOutActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Remove title bar
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //Remove notification bar
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        if(this.getIntent().hasExtra("Admin Mode"))
+        {
+            Bundle b = new Bundle();
+            adminMode = b.getBoolean("Admin Mode");
+        }
+        else
+            adminMode = false;
 
         setContentView(R.layout.activity_cash_out);
 
@@ -79,21 +88,23 @@ public class CashOutActivity extends ActionBarActivity {
         searchEditText = (EditText) findViewById(R.id.searchForNameEditText);
 
         customerListView = (ListView) findViewById(R.id.customerListView);
-        //TODO FIX THIS ADAPTER
-        ArrayAdapter<String> tmpAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, tmpList);
-        customerListView.setAdapter(tmpAdapter);
+        loadCustomerListViewAdapter();
+
+
 
         customerNameTextEdit = (TextView) findViewById(R.id.customerNameTextEdit);
         customersRFIDTextEdit = (TextView) findViewById(R.id.customersRFIDTextEdit);
         customersCurrentTabTextEdit = (TextView) findViewById(R.id.customersCurrentTabTextEdit);
 
         tabListView = (ListView) findViewById(R.id.tabListViewCashOutActivity);
-        //TODO FIX THIS ADAPTER
-        tabListView.setAdapter(tmpAdapter);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+    }
+
+    void loadCustomerListViewAdapter()
+    {
+        ArrayAdapter<String> tmpAdapter;
     }
 
     @Override
@@ -139,12 +150,39 @@ public class CashOutActivity extends ActionBarActivity {
         }
         else if(v.getId() == R.id.orderAsAdminButton)
         {
+            AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
+                    CashOutActivity.this);
+
+            alertDialog2.setTitle("Admin Mode");
+            alertDialog2.setMessage("Would you like to enter admin mode?  This allows you " +
+                    "to order drinks without going through the server");
+            alertDialog2.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(getApplicationContext(), MainScreen.class);
+                            startActivity(i);
+                            finish();
+                            dialog.cancel();
+                        }
+                    });
+            alertDialog2.setNegativeButton("NO",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            alertDialog2.show();
 
         }
         else if(v.getId() == R.id.backButtonCashOutActivity)
         {
+
             Intent i = new Intent(this, AdminPanel.class);
+            Bundle b = new Bundle();
+            b.putBoolean("Admin Mode" , this.adminMode);
+            i.putExtras(b);
             startActivity(i);
+            finish();
         }
 
         else

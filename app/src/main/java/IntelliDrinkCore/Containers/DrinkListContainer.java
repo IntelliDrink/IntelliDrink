@@ -26,6 +26,7 @@ public class DrinkListContainer implements IntelliDrinkContainer{
     {
         tabList = new ArrayList<>();
         myGrabber = new DrinkListGrabber(this, db, db2);
+
         lastDrink = new DrinkListItem();
     }
 

@@ -155,6 +155,7 @@ public class SerialInputOutputManager implements Runnable {
             len = mWriteBuffer.position();
             if (len > 0) {
                 outBuff = new byte[len];
+                Log.d("OUTBUFFER", ""+outBuff);
                 mWriteBuffer.rewind();
                 mWriteBuffer.get(outBuff, 0, len);
                 mWriteBuffer.clear();
@@ -168,7 +169,7 @@ public class SerialInputOutputManager implements Runnable {
         }
         else
         {
-            Log.d(TAG, "ERROR");
+            //Log.d(TAG, "ERROR");
         }
     }
 

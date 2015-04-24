@@ -44,17 +44,18 @@ public class CustomerListGrabber extends GenericListGrabber{
         myContainer.build(transactions, info);
     }
 
-    public boolean checkout(int id)
-    {
-        double balance = myDB.checkOut("Kiosk_1", "password", id);
-        boolean checker = false;
-        if(balance >= 0)
-        {
-            checker = true;
-        }
-        myContainer.setBalance(balance);
-        return checker;
-    }
+//    DO NOT USE THIS SHIT
+//    public boolean checkout(int id)
+//    {
+//        double balance = myDB.checkOut("Kiosk_1", "password", id);
+//        boolean checker = false;
+//        if(balance >= 0)
+//        {
+//            checker = true;
+//        }
+//        myContainer.setBalance(balance);
+//        return checker;
+//    }
 
 
     public void buildContainer()

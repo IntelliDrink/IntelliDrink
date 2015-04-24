@@ -31,6 +31,7 @@ public class DrinkListGrabber extends GenericListGrabber{
         myContainer = container;
         davidsDB = db2;
 
+        davidsDB.configureDatabase("Kiosk_1", "password");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -43,14 +44,16 @@ public class DrinkListGrabber extends GenericListGrabber{
 
         String arduinoCode = "";
         //first grab the whole list of drinks
-        davidsDB.configureDatabase("Kiosk_1", "password");
         tmpList = davidsDB.getAvailableRecipes();
         int MAX = tmpList.size();
         int id;
         for(int i = 0; i < MAX; i ++)
         {
-            id = tmpList.get(i).getID();
+            id = tmpList.get(i).getRecipeID();
+            //arduinoCode = davidsDB.getArduinoCode(id);
+            //id = 22;
             arduinoCode = davidsDB.getArduinoCode(id);
+
             ArrayList<String> ingredientStrings = davidsDB.getDrinkIngredients(id);
             Map<String, List<Integer>> stuff = getValuesAndAmounts(arduinoCode);
             List<Integer> values = stuff.get("values");

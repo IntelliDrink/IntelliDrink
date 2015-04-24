@@ -100,8 +100,13 @@ public JSONParser(){
         // try parse the string to a JSON object
         try {
             Log.d("Returned String:", "[" + json.toString() + "]");
-            json = json.substring(0, json.length()-1);
-            Log.d("Returne2 String:", "[" + json.toString() + "]");
+            if(json.length() > 0){
+                json = json.substring(0, json.length()-1);
+            } else{
+                Log.d("HOLY", "BAG OF DICKS");
+            }
+
+            //Log.d("Returne2 String:", "[" + json.toString() + "]");
             jObj = new JSONObject(json);
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());

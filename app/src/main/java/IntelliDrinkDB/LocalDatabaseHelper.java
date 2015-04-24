@@ -14,6 +14,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import IntelliDrinkCore.Containers.IntelliDrinkContainer;
 import IntelliDrinkCore.DrinkListItem;
 import IntelliDrinkCore.GenericIngredient;
 import IntelliDrinkCore.KioskConfiguration;
@@ -44,9 +45,9 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             + Constants.COL_ID + " INTEGER PRIMARY KEY, "
             + Constants.COL_SLOT_NUMBER + " INTEGER, "
             + Constants.COL_LITERAL_NAME + " TEXT, "
-            + Constants.COL_INGREDIENT_ID + "INTEGER, "
-            + Constants.COL_SLOT_LEVEL + "INTEGER, "
-            + Constants.COL_SHOT_PRICE + "DOUBLE, "
+            + Constants.COL_INGREDIENT_ID + " INTEGER, "
+            + Constants.COL_SLOT_LEVEL + " INTEGER, "
+            + Constants.COL_SHOT_PRICE + " DOUBLE, "
             + Constants.COL_AVAILABLE + " BOOLEAN)";
 
     public static final String CREATE_TABLE_DRINK_LIST = "CREATE TABLE "
@@ -76,6 +77,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // creating required tables
+        resetTables();
         db.execSQL(CREATE_TABLE_DRINK_LIST);
         db.execSQL(CREATE_TABLE_RECIPE_NEEDS);
         db.execSQL(CREATE_TABLE_KIOSK_SLOTS);
@@ -137,16 +139,16 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             double shotPrice = downloaded.get(i).getShotPrice();
             SQLString = "";
             //The information returned from the Server is a 1-1 input for the RecipeNeeds table
-            SQLString = "INSERT INTO " + TABLE_RECIPE_NEEDS + " ("
+            SQLString = "INSERT INTO " + TABLE_RECIPE_NEEDS + "("
                     + Constants.COL_RECIPE_ID + ", "
                     + Constants.COL_INGREDIENT_ID + ", "
-                    + Constants.COL_UNITS + ", "
-                    + Constants.COL_AVAILABLE + ") "
-                    + "VALUES ( "
+                    + Constants.COL_UNITS + ") "
+                    + "VALUES("
                     + rID + ", "
                     + ingredientID + ", "
-                    + units + ")";
-
+                    + units +
+                    ")";
+Log.d("SQL SHIT", SQLString);
             db.execSQL(SQLString);
 
             if (!slotNums.contains(slotNumber)) {
@@ -185,7 +187,8 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                     + slotList.get(i).getIngredientID() + ", "
                     + slotList.get(i).getSlotLevel() + ", "
                     + slotList.get(i).getShotPrice() + ", "
-                    + "true)";
+                    + "1)";
+            Log.d("SQL SHIT", SQLString);
             db.execSQL(SQLString);
         }
         for (int i = 0; i < drinkList.size(); i++) {
@@ -200,15 +203,16 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                     + "'" + drinkList.get(i).getRecipeName() + "', "
                     + drinkList.get(i).getPrice() + ", "
                     + "'" + drinkList.get(i).getDescription() + "', "
-                    + "true)";
+                    + "1)";
+            Log.d("SQL SHIT", SQLString);
             db.execSQL(SQLString);
         }
         checkSlot();
     }
 
 
-
     /*
+
     ================================================================================================
         Check Methods
     ================================================================================================
@@ -248,7 +252,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
                 //Kiosk Slot marked as unavailable
                 SQL = "UPDATE " + TABLE_KIOSK_SLOTS
-                        + " SET " + Constants.COL_AVAILABLE + " = FALSE"
+                        + " SET " + Constants.COL_AVAILABLE + " = 0"
                         + " WHERE " + Constants.COL_SLOT_NUMBER + " = " + slotNum;
                 WRITE.execSQL(SQL);
 
@@ -262,7 +266,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                 // Set all of the Recipes that use the unavailable ingredient to unavailable
                 while (inner.moveToNext()) {
                     SQL = "UPDATE " + TABLE_DRINK_LIST
-                            + " SET " + Constants.COL_AVAILABLE + " = FALSE"
+                            + " SET " + Constants.COL_AVAILABLE + " = 0"
                             + " WHERE " + Constants.COL_RECIPE_ID + " = " + inner.getInt(inner.getColumnIndex(Constants.COL_RECIPE_ID));
                 }
             } else if ((slotLevel > minSlotLevel) && (status == false)) {
@@ -271,8 +275,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
                 //Kiosk Slot marked as available
                 SQL = "UPDATE " + TABLE_KIOSK_SLOTS
-                        + " SET " + Constants.COL_AVAILABLE + " = TRUE"
-                        + " WHERE " + Constants.COL_SLOT_NUMBER + " = " + slotNum;
+                        + " WHERE " + Constants.COL_SLOT_NUMBER + " = 1" + slotNum;
                 WRITE.execSQL(SQL);
 
                 //Grab all of the RecipeIDs that use the now available ingredient
@@ -285,7 +288,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                 // Set all of the Recipes that use the now available ingredient to available
                 while (inner.moveToNext()) {
                     SQL = "UPDATE " + TABLE_DRINK_LIST
-                            + " SET " + Constants.COL_AVAILABLE + " = TRUE"
+                            + " SET " + Constants.COL_AVAILABLE + " = 1"
                             + " WHERE " + Constants.COL_RECIPE_ID + " = " + inner.getInt(inner.getColumnIndex(Constants.COL_RECIPE_ID));
                 }
             }
@@ -320,7 +323,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         Cursor point = db.rawQuery(MySQLString, null);
         ArrayList<DrinkListItem> recipeList = new ArrayList<>();
         DrinkListItem recipe;
-        int i= 0;
+        int i = 0;
         while (point.moveToNext()) {
             Log.d("Loop Checking", "penis x " + i);
             recipe = new DrinkListItem();
@@ -332,7 +335,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             recipe.setAvailable(true);
             recipeList.add(recipe);
         }
-        if(recipeList.size() == 0)
+        if (recipeList.size() == 0)
             Log.d(this.toString(), "recipelist is returning as a size 0, something is wrong");
         return recipeList;
     }
@@ -366,6 +369,9 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * The RecipeID of the recipe
      */
     public String getArduinoCode(int ID) {
+        Log.d("ARDUINO ID", "" + ID);
+
+
         String codeToReturn = "";
         int ingredientID;
         int units;
@@ -373,50 +379,53 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         int slotLevel = 0;
         SQLiteDatabase db = this.getReadableDatabase();
         //This SQL Statement selects all of the needed ingredients needed in to make a drink
-        String MySQLString = "SELECT * FROM " + TABLE_RECIPE_NEEDS + " WHERE" + Constants.COL_RECIPE_ID + " = " + ID;
+        String MySQLString = "SELECT * FROM " + TABLE_RECIPE_NEEDS + " WHERE " + Constants.COL_RECIPE_ID + "=" + ID;
         Cursor recipeNeedsPointer;
         Cursor kioskTablePointer;
         recipeNeedsPointer = db.rawQuery(MySQLString, null);
 
-        recipeNeedsPointer.moveToFirst();
-        do {
+        while (recipeNeedsPointer.moveToNext()) {
+            Log.d("TACO", "TUESDAYS");
             ingredientID = recipeNeedsPointer.getInt(recipeNeedsPointer.getColumnIndex(Constants.COL_INGREDIENT_ID));
+            Log.d("ingredientID", "" + ingredientID);
             units = recipeNeedsPointer.getInt(recipeNeedsPointer.getColumnIndex(Constants.COL_UNITS));
+            Log.d("Units" , String.valueOf(units));
             //This SQL Statement matches the correct Ingredient from the Recipe Needs table to the correct slot in the Kiosk Slot Table
-            MySQLString = "SELECT * FROM " + TABLE_KIOSK_SLOTS + "WHERE " + Constants.COL_INGREDIENT_ID + " = " + ingredientID;
+            MySQLString = "SELECT * FROM " + TABLE_KIOSK_SLOTS + " WHERE " + Constants.COL_INGREDIENT_ID + " = " + ingredientID;
             kioskTablePointer = db.rawQuery(MySQLString, null);
             slotNumber = 0;
             slotLevel = 0;
-            if (kioskTablePointer.getCount() > 1) {  // There are more than 1 match for the Ingredient ID, take the one with the highest SlotLevel
-                kioskTablePointer.moveToFirst();
-                do {
-                    MySQLString = "SELECT * FROM " + TABLE_KIOSK_SLOTS + "WHERE " + Constants.COL_INGREDIENT_ID + " = " + ingredientID;
-                    kioskTablePointer = db.rawQuery(MySQLString, null);
-                    int tempSlotNum = kioskTablePointer.getInt(kioskTablePointer.getColumnIndex(Constants.COL_SLOT_NUMBER));
-                    int tempSlotLevel = kioskTablePointer.getInt(kioskTablePointer.getColumnIndex(Constants.COL_SLOT_LEVEL));
-                    if (tempSlotLevel >= slotLevel) {
-                        slotNumber = tempSlotNum;
-                        slotLevel = tempSlotLevel;
+// There are more than 1 match for the Ingredient ID, take the one with the highest SlotLevel
+                //kioskTablePointer.moveToFirst();
+                while (kioskTablePointer.moveToNext()) {
+                    MySQLString = "SELECT * FROM " + TABLE_KIOSK_SLOTS + " WHERE " + Constants.COL_INGREDIENT_ID + " = " + ingredientID;
+                    Log.d("Table Kiosk" , MySQLString);
+                    Cursor kioskTablePointer2 = db.rawQuery(MySQLString, null);
+                    Log.d("KioskTablePointer2", "Row count: "+kioskTablePointer.getCount());
+                    while (kioskTablePointer2.moveToNext()) {
+                        int tempSlotNum = kioskTablePointer2.getInt(kioskTablePointer2.getColumnIndex(Constants.COL_SLOT_NUMBER));
+                        Log.d("Slot Number", String.valueOf(tempSlotNum));
+                        int tempSlotLevel = kioskTablePointer2.getInt(kioskTablePointer2.getColumnIndex(Constants.COL_SLOT_LEVEL));
+                        Log.d(" tempSlotLevel", String.valueOf(tempSlotLevel));
+                        if (tempSlotLevel >= slotLevel) {
+                            Log.d("slotNumber check" , ""+slotNumber);
+                            slotNumber = tempSlotNum;
+                            slotLevel = tempSlotLevel;
+                        }
                     }
-                } while (recipeNeedsPointer.moveToNext());
-            } else {
-                do {
-                    MySQLString = "SELECT * FROM " + TABLE_KIOSK_SLOTS + "WHERE " + Constants.COL_INGREDIENT_ID + " = " + ingredientID;
-                    kioskTablePointer = db.rawQuery(MySQLString, null);
-                    slotNumber = kioskTablePointer.getInt(kioskTablePointer.getColumnIndex(Constants.COL_SLOT_NUMBER));
-                    slotLevel = kioskTablePointer.getInt(kioskTablePointer.getColumnIndex(Constants.COL_SLOT_LEVEL));
-                } while (recipeNeedsPointer.moveToNext());
-            }
+                }
+
             for (int i = units; i > 0; i--) {
+                Log.d("Code Appendage", ""+slotNumber);
                 codeToReturn += "" + slotNumber;
             }
-        } while (recipeNeedsPointer.moveToNext());
+            kioskTablePointer.close();
+        }
         recipeNeedsPointer.close();
-        kioskTablePointer.close();
-        if(codeToReturn.length() == 0)
-        {
+        if (codeToReturn.length() == 0) {
             Log.d(this.toString(), "Arduino Code is returning with nothing");
         }
+        Log.d("Arduino Code returned: " , codeToReturn);
         return codeToReturn;
     }
 
@@ -433,16 +442,25 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * The RecipeID of the recipe
      */
     public ArrayList<String> getDrinkIngredients(int ID) {
+        Log.d("Drink ID getDrinks", String.valueOf(ID));
         ArrayList<String> ingredientList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
+        int litID = 0;
         //This SQL Statement selects all of the needed ingredients needed in to make a drink
-        String MySQLString = "SELECT " + Constants.COL_LITERAL_NAME +  "  FROM " + TABLE_RECIPE_NEEDS + " WHERE" + Constants.COL_RECIPE_ID + " = " + ID;
+        String MySQLString = "SELECT " + Constants.COL_INGREDIENT_ID + " FROM " + TABLE_RECIPE_NEEDS + " WHERE " + Constants.COL_RECIPE_ID + " = " + ID;
+        String SQLString;
         Cursor recipeNeedsPointer = db.rawQuery(MySQLString, null);
+        Cursor litPointer;
         while (recipeNeedsPointer.moveToNext()) {
-            ingredientList.add(recipeNeedsPointer.getString(recipeNeedsPointer.getColumnIndex(Constants.COL_LITERAL_NAME)));
+            litID = recipeNeedsPointer.getInt(recipeNeedsPointer.getColumnIndex(Constants.COL_INGREDIENT_ID));
+            SQLString = "SELECT " + Constants.COL_LITERAL_NAME + " FROM " + TABLE_KIOSK_SLOTS + " WHERE " + Constants.COL_INGREDIENT_ID + " = " + litID;
+            litPointer = db.rawQuery(SQLString, null);
+            while (litPointer.moveToNext()) {
+                ingredientList.add(litPointer.getString(litPointer.getColumnIndex(Constants.COL_LITERAL_NAME)));
+                Log.d("Ingredient Name", ingredientList.get(0));
+            }
         }
-        if(ingredientList.size() == 0)
-        {
+        if (ingredientList.size() == 0) {
             Log.d(this.toString(), "Ingredients size == 0, something is wrong");
         }
         return ingredientList;
@@ -473,7 +491,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         WRITE.execSQL(SQL);
     }
 
-    public ArrayList<SlotItem> getSlotItems(){
+    public ArrayList<SlotItem> getSlotItems() {
         SQLiteDatabase db = this.getReadableDatabase();
         SlotItem slot;
         ArrayList<SlotItem> arrayOfSlots = new ArrayList<>();
@@ -493,11 +511,11 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             slot.setShotPrice(slotItemCursor.getDouble(slotItemCursor.getColumnIndex(Constants.COL_SHOT_PRICE)));
 
             int taco = slotItemCursor.getInt(slotItemCursor.getColumnIndex(Constants.COL_RECIPE_NAME));
-                    if(taco < 1){
-                        slot.setAvailable(false);
-                    } else{
-                        slot.setAvailable(true);
-                    }
+            if (taco < 1) {
+                slot.setAvailable(false);
+            } else {
+                slot.setAvailable(true);
+            }
 
             arrayOfSlots.add(slot);
         }

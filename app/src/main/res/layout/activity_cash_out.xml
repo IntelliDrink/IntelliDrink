@@ -65,6 +65,7 @@
             android:layout_height="75dp"
             android:text="Toggle Active Customers"
             android:id="@+id/toggleActiveCustomersButton"
+            android:onClick="onClickCashOutActivity"
             android:layout_gravity="center_horizontal" />
 
         <Button
@@ -80,6 +81,7 @@
             android:layout_height="75dp"
             android:text="Order As Admin"
             android:id="@+id/orderAsAdminButton"
+            android:onClick="onClickCashOutActivity"
             android:layout_gravity="center_horizontal" />
 
         <Button

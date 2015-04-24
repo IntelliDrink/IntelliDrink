@@ -30,11 +30,16 @@ import intellidrink.intellidrink.SpecialGuiItems.LiteralIngredientListItem;
 
 public class AdminPanel extends Activity{
 
+
+    private static String ADMIN_USERNAME = "Admin";
+    private static String ADMIN_PASSWORD = "12345678";
+
     Button loadKioskButton;
     Button testUSBButton;
     Button checkoutButton;
     Button reloadKioskButton;
 
+    boolean adminMode;
 
     ListView kioskDispensaryListView;
     ListView drinkSelectorListView;
@@ -51,6 +56,15 @@ public class AdminPanel extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        if(this.getIntent().hasExtra("Admin Mode"))
+        {
+            Bundle b = new Bundle();
+            adminMode = b.getBoolean("Admin Mode");
+        }
+        else
+            adminMode = false;
 
 
         setContentView(R.layout.activity_admin_pannel);
@@ -158,8 +172,11 @@ public class AdminPanel extends Activity{
         if(v.getId() == R.id.loadAppButton)
         {
             Intent i = new Intent(this, MainScreen.class);
-            //handle any passing here, but we really shouldn't need to
+            Bundle b = new Bundle();
+            b.putBoolean("Admin Mode" , this.adminMode);
+            i.putExtras(b);
             startActivity(i);
+            finish();
         }
         else if(v.getId() == R.id.USBTestButton)
         {
@@ -169,8 +186,11 @@ public class AdminPanel extends Activity{
         else if(v.getId() == R.id.checkoutScreenButton)
         {
             Intent i = new Intent(this, CashOutActivity.class);
-            //handle any passing here, but we really shouldn't need to
+            Bundle b = new Bundle();
+            b.putBoolean("Admin Mode" , this.adminMode);
+            i.putExtras(b);
             startActivity(i);
+            finish();
         }
         else if(v.getId() == R.id.reloadKioskButton)
         {
