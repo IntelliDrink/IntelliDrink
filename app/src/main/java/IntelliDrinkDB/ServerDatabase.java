@@ -248,9 +248,9 @@ public class ServerDatabase extends Constants {
             jArray = json.getJSONArray(TAG_CUSTOM);
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject c = jArray.getJSONObject(i);
-                Log.d("CUSTOMER INFO CHECK" , "CUSTOMER INFO CHECK");
-                Log.d("CUSTOMER INFO CHECK" , "CUSTOMER INFO CHECK");
-                Log.d("CUSTOMER INFO CHECK" , "CUSTOMER INFO CHECK");
+                Log.d("CUSTOMER INFO CHECK", "CUSTOMER INFO CHECK");
+                Log.d("CUSTOMER INFO CHECK", "CUSTOMER INFO CHECK");
+                Log.d("CUSTOMER INFO CHECK", "CUSTOMER INFO CHECK");
                 customerInfo.setID(c.getInt(COL_ID));
                 customerInfo.setBalance(c.getDouble(COL_BALANCE));
                 Log.d("Customer Balance Check" , String.valueOf(customerInfo.getBalance()));
@@ -469,12 +469,57 @@ public class ServerDatabase extends Constants {
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject c = jArray.getJSONObject(i);
                 slot = new SlotItem();
-                slot.setSlotNumber(c.getInt(COL_ID));
+                slot.setID(c.getInt(COL_ID));
                 slot.setLiteralName(c.getString(COL_LITERAL_NAME));
                 slot.setSlotNumber(c.getInt(COL_SLOT_NUMBER));
                 slot.setIngredientID(c.getInt(COL_INGREDIENT_ID));
                 slot.setSlotLevel(c.getInt(COL_SLOT_LEVEL));
                 list.add(slot);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
+     *
+     * @param username
+     * @param password
+     *
+     * Returns the Kiosk Attributes (What is in the Kiosk)
+     *
+     * Requires: username, password
+     * Returns :
+     * |  CustomerID  |  CustomerName  |  CustomerBalance  |  CustomerCoolDown  |  CustomerRFID  |
+     *     Integer          String   	    Double    	        Boolean                 String
+     */
+    public ArrayList<CustomerInformation> getCustomers(String username, String password){
+        String URL = BASE_URL + URL_GET_CUSTOMERS;
+        JSONArray jArray = null;
+        ArrayList<NameValuePair> params = new ArrayList<>() ;
+        params.add(new BasicNameValuePair(TAG_USERNAME, username));
+        params.add(new BasicNameValuePair(TAG_PASSWORD, password));
+        jParser.makeHttpRequest(URL, "GET", params);
+        CustomerInformation customer;
+        ArrayList<CustomerInformation> list = new ArrayList<>();
+
+        JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
+        try {
+            jArray = json.getJSONArray(TAG_CUSTOM);
+            for (int i = 0; i < jArray.length(); i++) {
+                JSONObject c = jArray.getJSONObject(i);
+                customer = new CustomerInformation();
+                customer.setID(c.getInt(COL_ID));
+                customer.setBalance(c.getDouble(COL_BALANCE));
+                if(c.getInt(COL_COOL_DOWN) < 1){
+                    customer.setCoolDown(false);
+                } else{
+                    customer.setCoolDown(true);
+                }
+                customer.setCustomerName(c.getString(COL_CUSTOMER_NAME));
+                customer.setCustomerRFID(c.getString(COL_CUSTOMER_RFID));
+                list.add(customer);
             }
         } catch (JSONException e) {
             e.printStackTrace();

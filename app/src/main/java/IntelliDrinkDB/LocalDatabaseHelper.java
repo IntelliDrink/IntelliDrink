@@ -115,7 +115,8 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      */
     public void configureDatabase(String username, String password) {
         resetTables();
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase WRITE = this.getWritableDatabase();
+        SQLiteDatabase READ = this.getReadableDatabase();
         String SQLString;
         resetTables();
         ServerDatabase SD = new ServerDatabase();
@@ -148,8 +149,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                     + ingredientID + ", "
                     + units +
                     ")";
-Log.d("SQL SHIT", SQLString);
-            db.execSQL(SQLString);
+            WRITE.execSQL(SQLString);
 
             if (!slotNums.contains(slotNumber)) {
                 slotNums.add(slotNumber);
@@ -173,24 +173,6 @@ Log.d("SQL SHIT", SQLString);
                 drinkList.add(drink);
             }
         }
-        for (int i = 0; i < slotList.size(); i++) {
-            SQLString = "INSERT INTO " + TABLE_KIOSK_SLOTS + " ("
-                    + Constants.COL_SLOT_NUMBER + ", "
-                    + Constants.COL_LITERAL_NAME + ", "
-                    + Constants.COL_INGREDIENT_ID + ", "
-                    + Constants.COL_SLOT_LEVEL + ", "
-                    + Constants.COL_SHOT_PRICE + ", "
-                    + Constants.COL_AVAILABLE + ") "
-                    + "VALUES ( "
-                    + slotList.get(i).getSlotNumber() + ", "
-                    + "'" + slotList.get(i).getLiteralName() + "', "
-                    + slotList.get(i).getIngredientID() + ", "
-                    + slotList.get(i).getSlotLevel() + ", "
-                    + slotList.get(i).getShotPrice() + ", "
-                    + "1)";
-            Log.d("SQL SHIT", SQLString);
-            db.execSQL(SQLString);
-        }
         for (int i = 0; i < drinkList.size(); i++) {
             SQLString = "INSERT INTO " + TABLE_DRINK_LIST + " ("
                     + Constants.COL_RECIPE_ID + ", "
@@ -204,9 +186,46 @@ Log.d("SQL SHIT", SQLString);
                     + drinkList.get(i).getPrice() + ", "
                     + "'" + drinkList.get(i).getDescription() + "', "
                     + "1)";
-            Log.d("SQL SHIT", SQLString);
-            db.execSQL(SQLString);
+            WRITE.execSQL(SQLString);
         }
+
+        ArrayList<SlotItem> attributes = SD.getSlotAttributes(username, password);
+
+        for (int i = 0; i < attributes.size(); i++) {
+            SQLString = "INSERT INTO " + TABLE_KIOSK_SLOTS + " ("
+                    + Constants.COL_SLOT_NUMBER + ", "
+                    + Constants.COL_LITERAL_NAME + ", "
+                    + Constants.COL_INGREDIENT_ID + ", "
+                    + Constants.COL_SLOT_LEVEL + ", "
+                    + Constants.COL_SHOT_PRICE + ", "
+                    + Constants.COL_AVAILABLE + ") "
+                    + "VALUES ( "
+                    + attributes.get(i).getSlotNumber() + ", "
+                    + "'" + attributes.get(i).getLiteralName() + "', "
+                    + attributes.get(i).getIngredientID() + ", "
+                    + attributes.get(i).getSlotLevel() + ", "
+                    + attributes.get(i).getShotPrice() + ", "
+                    + "1)";
+            WRITE.execSQL(SQLString);
+
+            SQLString = "INSERT INTO " + TABLE_DRINK_LIST + " ("
+                    + Constants.COL_RECIPE_ID + ", "
+                    + Constants.COL_RECIPE_NAME + ", "
+                    + Constants.COL_PRICE + ", "
+                    + Constants.COL_DESCRIPTION + ", "
+                    + Constants.COL_AVAILABLE + ") "
+                    + "VALUES ( "
+                    + "1, "
+                    + "'A Shot of " + attributes.get(i).getLiteralName() + "', "
+                    + attributes.get(i).getShotPrice() + ", "
+                    + "' A standard 1.5 oz shot of " + attributes.get(i).getLiteralName() + "', "
+                    + "1)";
+            WRITE.execSQL(SQLString);
+
+        }
+
+
+
         checkSlot();
     }
 
@@ -425,7 +444,7 @@ Log.d("SQL SHIT", SQLString);
         if (codeToReturn.length() == 0) {
             Log.d(this.toString(), "Arduino Code is returning with nothing");
         }
-        Log.d("Arduino Code returned: " , codeToReturn);
+        Log.d("Arduino Code returned: ", codeToReturn);
         return codeToReturn;
     }
 
