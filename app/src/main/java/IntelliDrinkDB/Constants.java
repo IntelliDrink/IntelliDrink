@@ -13,6 +13,7 @@ public class Constants {
     protected static final String URL_SLOT_LEVEL = "slotLevel.php";
     protected static final String URL_CUSTOMER_TRANSACTIONS = "customerTransactions.php";
     protected static final String URL_GET_SLOT_ATTRIBUTES = "getSlotAttributes.php";
+    protected static final String URL_GET_CUSTOMERS = "getCustomers.php";
     protected static final String URL_CUSTOMER_INFO = "customer_info.php";
     protected static final String URL_CONFIGURE_KIOSK = "configure_kiosk_database.php";
     protected static final String URL_CHECK_OUT = "checkOut.php";
