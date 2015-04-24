@@ -35,7 +35,7 @@ import IntelliDrinkUSB.util.SerialInputOutputManager;
 public class MainScreen extends ActionBarActivity {
 
     private static String ADMIN_USERNAME = "Admin";
-    private static String ADMIN_PASSWORD = "12345678";
+    private static String ADMIN_PASSWORD = "1";
 
     private final String TAG = MainScreen.class.getSimpleName();
 
@@ -146,8 +146,9 @@ public class MainScreen extends ActionBarActivity {
 
         if(this.getIntent().hasExtra("Admin Mode"))
         {
-            Bundle b = new Bundle();
+            Bundle b = this.getIntent().getExtras();
             adminMode = b.getBoolean("Admin Mode");
+            Log.d(TAG, "Admin Mode: " + adminMode);
         }
         else
             adminMode = false;
@@ -287,6 +288,7 @@ public class MainScreen extends ActionBarActivity {
     {
         if(v.getId() == R.id.mainButton)
         {
+            if(!this.adminMode){
 
             this.rfidFound = false;
             RFID = "";
@@ -300,6 +302,11 @@ public class MainScreen extends ActionBarActivity {
                     Log.d(TAG, "Port is null shitbag");
             } catch (IOException e) {
                 e.printStackTrace();
+            }}
+            else
+            {
+                RFID = "0000000";
+                loadOrderScreen();
             }
         }
         else if(v.getId() == R.id.adminButton)

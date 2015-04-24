@@ -18,9 +18,9 @@
     <Button
         android:layout_width="350dp"
         android:layout_height="250dp"
-        android:text="Place Holder Button"
+        android:text="Set Admin Mode"
         android:onClick="buttonClick"
-        android:id="@+id/USBTestButton"
+        android:id="@+id/setAdminButton"
         android:layout_gravity="center_horizontal|bottom" />
 
     <ListView

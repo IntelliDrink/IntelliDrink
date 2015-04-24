@@ -69,13 +69,13 @@ public class CustomerListContainer implements IntelliDrinkContainer{
      * @return
      */
     public double checkOut()
-    {
-        if(myGrabber.checkout(this.id))
+    {/*
+        if(myGrabber.checkout())
         {
             tabList.clear();
             return balance;
         }
-        else
+        else*/
             return -1;
     }
 

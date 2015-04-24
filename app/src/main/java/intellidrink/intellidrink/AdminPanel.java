@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,16 +31,18 @@ import intellidrink.intellidrink.SpecialGuiItems.LiteralIngredientListItem;
 
 public class AdminPanel extends Activity{
 
+    private final String TAG = AdminPanel.class.getSimpleName();
+
 
     private static String ADMIN_USERNAME = "Admin";
-    private static String ADMIN_PASSWORD = "12345678";
+    private static String ADMIN_PASSWORD = "1";
 
     Button loadKioskButton;
     Button testUSBButton;
     Button checkoutButton;
     Button reloadKioskButton;
 
-    boolean adminMode;
+    boolean adminMode = false;
 
     ListView kioskDispensaryListView;
     ListView drinkSelectorListView;
@@ -60,8 +63,9 @@ public class AdminPanel extends Activity{
 
         if(this.getIntent().hasExtra("Admin Mode"))
         {
-            Bundle b = new Bundle();
+            Bundle b = this.getIntent().getExtras();
             adminMode = b.getBoolean("Admin Mode");
+            Log.d(TAG, "Admin Mode found");
         }
         else
             adminMode = false;
@@ -79,7 +83,7 @@ public class AdminPanel extends Activity{
     void doGUIThings()
     {
         loadKioskButton = (Button) findViewById(R.id.loadAppButton);
-        testUSBButton = (Button) findViewById(R.id.USBTestButton);
+        testUSBButton = (Button) findViewById(R.id.setAdminButton);
         checkoutButton = (Button) findViewById(R.id.checkoutScreenButton);
         reloadKioskButton = (Button) findViewById(R.id.reloadKioskButton);
 
@@ -178,10 +182,9 @@ public class AdminPanel extends Activity{
             startActivity(i);
             finish();
         }
-        else if(v.getId() == R.id.USBTestButton)
+        else if(v.getId() == R.id.setAdminButton)
         {
-            //RUNS USB TEST CODE, IGNORE FOR NOW
-            debugUSB();
+            setAdminMode();
         }
         else if(v.getId() == R.id.checkoutScreenButton)
         {
@@ -202,9 +205,10 @@ public class AdminPanel extends Activity{
         }
     }
 
-    void debugUSB()
+    void setAdminMode()
     {
-        Toast.makeText(this, "We're hoping we dont actually need to use this, but this is a placeholder message for now", Toast.LENGTH_SHORT).show();
+        this.adminMode = !adminMode;
+        Log.d(TAG, "AdminMode: " + adminMode);
     }
 
 
