@@ -62,6 +62,7 @@ public class CashOutActivity extends ActionBarActivity {
 
     boolean adminMode;
 
+    CustomerInformation myActiveCustomer;
 
     ServerDatabase database;
     LocalDatabaseHelper localDataBase;
@@ -112,8 +113,9 @@ public class CashOutActivity extends ActionBarActivity {
     }
     void loadCustomerListViewAdapter()
     {
-        ArrayList<String> customerNameList = new ArrayList<>();
-        ArrayList<CustomerInformation> tempList = database.getCustomers("Kiosk_1", "password");
+
+        final ArrayList<String> customerNameList = new ArrayList<>();
+        final ArrayList<CustomerInformation> tempList = database.getCustomers("Kiosk_1", "password");
         for (CustomerInformation ci : tempList) {
             customerNameList.add(ci.getCustomerName());
         }
@@ -122,7 +124,11 @@ public class CashOutActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TabListContainer myContainer = new TabListContainer(database);
-                myContainer.build(getIntent().getExtras().getString("RFID"));
+                myContainer.build(tempList.get(position).getCustomerRFID());
+
+                myActiveCustomer = myContainer.getMyInformation();
+                customerNameTextEdit.setText(myActiveCustomer.getCustomerName());
+                customersRFIDTextEdit.setText(myActiveCustomer.getCustomerRFID());
 
                 ArrayList<TabAdapterItem> adapterItems = new ArrayList<>();
                 TabAdapterItem item;
@@ -132,7 +138,8 @@ public class CashOutActivity extends ActionBarActivity {
                     item = new TabAdapterItem(n, p);
                     adapterItems.add(item);
                 }
-                tabListView.setAdapter(new TabAdapter(getApplicationContext(), adapterItems));
+                TabAdapter myTabAdapter = new TabAdapter(getApplicationContext(), adapterItems);
+                tabListView.setAdapter(myTabAdapter);
             }
         });
     }

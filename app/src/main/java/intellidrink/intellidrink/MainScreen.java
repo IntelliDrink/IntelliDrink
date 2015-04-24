@@ -305,7 +305,7 @@ public class MainScreen extends ActionBarActivity {
             }}
             else
             {
-                RFID = "0000000";
+                RFID = "1437722";
                 loadOrderScreen();
             }
         }
